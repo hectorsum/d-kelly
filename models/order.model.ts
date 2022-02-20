@@ -18,6 +18,10 @@ const OrderSchema = new Schema({
       type: String,
       required: false
     },
+    date:{
+      type:Date,
+      default: Date.now,
+    }
 })
 
 interface IOrder extends Document {
