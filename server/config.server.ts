@@ -19,13 +19,14 @@ export class ConfigServer {
     private middlewares() {
       this.app.use(morgan('dev'))
       this.app.use(cors({ origin: '*' }))
+      
       this.app.use(express.json())
       this.app.use(express.urlencoded({ extended: true }))
     }
 
     private routes() {
-      this.app.use('/customer',_Customer);
-      this.app.use('/orders',_Orders);
+      this.app.use('/api/customer',_Customer);
+      this.app.use('/api/order',_Orders);
     }
 
     start(callback: any) {
