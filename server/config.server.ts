@@ -4,6 +4,7 @@ import cors from 'cors'
 /* Routes */
 import _Customer from '../routes/customer.route';
 import _Orders from '../routes/orders.route';
+import _Auth from '../routes/auth.route';
 
 export class ConfigServer {
     app: Application;
@@ -27,6 +28,7 @@ export class ConfigServer {
     private routes() {
       this.app.use('/api/customer',_Customer);
       this.app.use('/api/order',_Orders);
+      this.app.use('/api/auth',_Auth);
     }
 
     start(callback: any) {

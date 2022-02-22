@@ -1,5 +1,8 @@
 import { Request, Response } from 'express';
 
-export interface CustomRequest extends Request {
-  user: string
+interface IUser{
+  id: string
+}
+export interface AuthRequest extends Request {
+  user: IUser
 }

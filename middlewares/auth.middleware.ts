@@ -1,6 +1,6 @@
 import { NextFunction,Request, Response } from "express";
 import { IUser } from "../models/user.model";
-import { CustomRequest } from "../types";
+import { AuthRequest } from "../types";
 import jwt from 'jsonwebtoken';
 import config from 'config';
 
@@ -10,17 +10,15 @@ declare module 'jsonwebtoken' {
   }
 }
 
-export default function (req: CustomRequest, res: Response, next: NextFunction) {
-  //* Getting token from header
-  const token = req.header('x-auth-token');
-  //* Check if not token
-  if(!token){
-    return res.status(401).json({ msg: 'No token, authorization denied' });
-  }
-  //* Verify Token
+export default function (req: AuthRequest, res: Response, next: NextFunction) {
   try{
+    //* Getting token from header
+    const token = req.header('x-auth-token');
+    if(!token) return res.status(401).json({ msg: 'No token, authorization denied' });    
+    
+    //* Verify Token
     const {userId} = <jwt.UserIDJwtPayload>jwt.verify(token,config.get('jwtSecret'));
-    req.user = userId;
+    req.user.id = userId;
     next();
   }catch(err){
     res.status(401).json({msg: 'Token is not valid'});
