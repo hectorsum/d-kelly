@@ -6,14 +6,12 @@ import { generateJWT } from '../middlewares/jwt.middleware';
 
 export class AuthController {
   constructor() {}
-  async getOne(req: AuthRequest, res: Response) {
+  async getOne(req: any, res: Response) {
     try {
-      if(req.user){
-        const user = await User.findById(req.user.id);
-        res.status(200).json({
-          user
-        });
-      }
+      const user = await User.findById(req.user.id);
+      res.status(200).json({
+        user
+      });
     } catch (error) {
       res.status(500).send("Server Error: "+error)
     }
@@ -26,6 +24,10 @@ export class AuthController {
         return res.status(400).json({ errors: [{ msg: "Invalid Credencials" }] });
       }
       const {_id, password: usrPass} = user;
+      console.log({
+        "user":user,
+        "req.body":req.body
+      })
       const isMatch = await bcrypt.compare(password, usrPass);
       if (!isMatch) {
         return res.status(400).json({ errors: [{ msg: "Invalid Credencials" }] });
