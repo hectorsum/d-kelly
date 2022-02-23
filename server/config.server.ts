@@ -1,6 +1,7 @@
-import express, { Application } from 'express'
+import express, { Application, Request, Response } from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
+import path from 'path'
 /* Routes */
 import _Customer from '../routes/customer.route';
 import _Orders from '../routes/orders.route';
@@ -21,7 +22,6 @@ export class ConfigServer {
     private middlewares() {
       this.app.use(morgan('dev'))
       this.app.use(cors({ origin: '*' }))
-      
       this.app.use(express.json())
       this.app.use(express.urlencoded({ extended: true }))
     }
@@ -34,6 +34,13 @@ export class ConfigServer {
     }
 
     start(callback: any) {
+      if (process.env.NODE_ENV === "production") {
+        //* Set static folder
+        this.app.use(express.static("dkelly-front/build"));
+        this.app.get("*", (req: Request, res: Response) => {
+          res.sendFile(path.resolve(__dirname, "dkelly-front", "build", "index.html"));
+        });
+      }
       this.app.listen(this.app.get('port'), callback)
       this.middlewares()
       this.routes()
