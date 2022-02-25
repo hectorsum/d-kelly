@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "ts-dev": "nodemon dist/server.js",
-    "client": "npm start --prefix cochera-client",
+    "client": "npm start --prefix dkelly-front",
     "server": "concurrently \"npm run ts-dev\" \"tsc -w\""
   },
   "author": "",
