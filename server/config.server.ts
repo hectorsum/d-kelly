@@ -34,9 +34,9 @@ export class ConfigServer {
       this.app.use('/api/order',_Orders);
       this.app.use('/api/auth',_Auth);
       this.app.use('/api/user',_User);
-      this.app.use('/api/user',_Employee);
-      this.app.use('/api/user',_EmployeeSchedule);
-      this.app.use('/api/user',_Product);
+      this.app.use('/api/employee',_Employee);
+      this.app.use('/api/employee-schedule',_EmployeeSchedule);
+      this.app.use('/api/product',_Product);
     }
 
     start(callback: any) {
