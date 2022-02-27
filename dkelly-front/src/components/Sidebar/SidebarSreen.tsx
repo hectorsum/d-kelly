@@ -38,8 +38,10 @@ import {
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
-import { AiFillDashboard } from 'react-icons/ai';
-import { GiHomeGarage } from 'react-icons/gi';
+import { FcSalesPerformance } from 'react-icons/fc';
+import { FaIceCream } from 'react-icons/fa';
+import { HiUsers, HiOutlineUserGroup } from 'react-icons/hi';
+import { BiBox } from 'react-icons/bi';
 
 interface LinkItemProps {
   name: string;
@@ -47,11 +49,12 @@ interface LinkItemProps {
   path: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Dashboard', icon: AiFillDashboard, path:'/dashboard' },
-  { name: 'Clientes', icon: FiUser, path:'/customer' },
-  { name: 'Cochera', icon: GiHomeGarage, path:'/garage' },
-  { name: 'Favourites', icon: FiStar, path:'/favourites' },
-  { name: 'Configuracion', icon: FiSettings, path:'/settings' },
+  { name: 'Dashboard', icon: FcSalesPerformance, path:'/dashboard' },
+  { name: 'Pedidos', icon: FaIceCream, path:'/pedidos' },
+  { name: 'Productos', icon: BiBox, path:'/productos' },
+  { name: 'Empleados', icon: HiOutlineUserGroup, path:'/empleados' },
+  { name: 'Clientes', icon: HiUsers, path:'/clientes' },
+  { name: 'Configuracion', icon: FiSettings, path:'/configuracion' },
 ];
 
 export const SidebarScreen = ({ children }: {
@@ -103,7 +106,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold" margin="0 auto">
           <Avatar bg="transparent" display="flex" justifyContent="center" alignItems="center">
-            <Image src={'/cochera-logo.png'} alt="Garage Logo"/>
+            <Image src={'/dkelly-logo.png'} alt="Garage Logo"/>
           </Avatar>
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
@@ -182,7 +185,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         fontFamily="monospace"
         fontWeight="bold" margin="0 auto">
           <Avatar bg="transparent" display="flex" justifyContent="center" alignItems="center">
-            <Image src={'/cochera-logo.png'} alt="Garage Logo"/>
+            <Image src={'/dkelly-logo.png'} alt="Garage Logo"/>
           </Avatar>
       </Text>
 
@@ -211,7 +214,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2">
-                  <Text fontSize="sm">Justina Clark</Text>
+                  <Text fontSize="sm">David Bello</Text>
                   <Text fontSize="xs" color="gray.600">
                     Admin
                   </Text>

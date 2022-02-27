@@ -6,13 +6,14 @@ const OrderSchema = new Schema({
       ref: "customer",
       required: [true, 'customer is required']
     },
-    icecream: {
-      type: String,
-      required: [true, 'icecream is required']
+    products:{
+      type: [Schema.Types.ObjectId],
+      ref: "customer",
+      required: true
     },
-    amountcharged: {
+    total: {
       type: Number,
-      required: [true, 'amount is required']
+      required: false
     },
     notes: {
       type: String,
@@ -30,6 +31,5 @@ interface IOrder extends Document {
     amountcharged: number,
     notes?:string
 }
-
 
 export const Order = model<IOrder>('order', OrderSchema)
