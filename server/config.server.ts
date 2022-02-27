@@ -9,6 +9,7 @@ import _Auth from '../routes/auth.route';
 import _User from '../routes/user.route';
 import _Employee from '../routes/employee.route';
 import _EmployeeSchedule from '../routes/employee-schedule.route';
+import _Product from '../routes/product.route';
 
 export class ConfigServer {
     app: Application;
@@ -35,6 +36,7 @@ export class ConfigServer {
       this.app.use('/api/user',_User);
       this.app.use('/api/user',_Employee);
       this.app.use('/api/user',_EmployeeSchedule);
+      this.app.use('/api/user',_Product);
     }
 
     start(callback: any) {
