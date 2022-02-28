@@ -2,7 +2,7 @@ import { Schema, model, Document } from 'mongoose'
 
 const EmployeeScheduleSchema = new Schema({
   checkout: {
-    type: String,
+    type: Date,
     required: false
   },
   employeeid: {
@@ -10,6 +10,10 @@ const EmployeeScheduleSchema = new Schema({
     ref: "employee",
     required: true,
   },
+  date: {
+    type: Date,
+    default: Date.now
+  }
 })
 
 export interface IEmployeeSchedule extends Document {

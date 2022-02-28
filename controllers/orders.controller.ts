@@ -16,6 +16,7 @@ export class OrderController {
       let arrayPrices: number[];
       const {products, customer, notes} = req.body;
       const errors = [] as Array<{msg: string}>;
+      
       //* Validating stock availability
       const promisesResponse = products.map(async(item: IProductCart) => {
         const { name, qty:currentStock } = await Product.findOne({_id: item.id}) as IProduct;
@@ -27,16 +28,15 @@ export class OrderController {
         }
       })
       await Promise.all(promisesResponse).then(data => data).catch(err => err);
-      console.log(errors);
       if (errors.length > 0) return res.status(500).json({errors: errors});
       
+      //* Getting the total amount
       arrayPromises = products.map(async(item: IProductCart) => {
         const {price} = await Product.findOne({_id:item.id}) as IProduct;
         let amount = price * item.qty;
         return amount;
       })
     
-      //* Getting the total amount
       arrayPrices = await Promise.all<Array<number>>(arrayPromises);
       total = arrayPrices.reduce((total, num) => {
         return total + num;

@@ -17,4 +17,32 @@ export class EmployeeScheduleController {
       })
     }
   }
+  async seeCheckoutByEmployee(req: Request, res: Response){
+    try {
+      const checkouts = await EmployeeSchedule.findById(req.params.id);
+      res.json({
+        ok: true,
+        data: checkouts
+      })
+    } catch (error) {
+      res.json({
+        ok:false,
+        msg: error
+      })
+    }
+  }
+  async seeAllCheckouts(req: Request, res: Response){
+    try {
+      const checkouts = await EmployeeSchedule.find({date: new Date()});
+      res.json({
+        ok: true,
+        data: checkouts
+      })
+    } catch (error) {
+      res.json({
+        ok:false,
+        msg: error
+      })
+    }
+  }
 }
