@@ -5,7 +5,6 @@ export async function connection() {
   try {
     await connect( 
       uri, {
-        bufferCommands: false,
         autoIndex: false,
         autoCreate: true,
       }, (error: CallbackError) => {
