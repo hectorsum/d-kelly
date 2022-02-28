@@ -5,22 +5,17 @@ const ProductSchema = new Schema({
     type: String,
     required: [true, 'icecream is required']
   },
-  measuretype:{
-    type: String,
-    required: [true, 'type is required']
-  },
   qty:{
     type: Number,
     required: [true, 'quantity is required']
   },
   price:{
     type: Number,
-    required: [true, 'quantity is required']
+    required: [true, 'price is required']
   },
 })
-interface IProduct {
+export interface IProduct {
   name: string
-  measuretype: string //kilograms, grams, unit
   qty: number
   price: number
 }
