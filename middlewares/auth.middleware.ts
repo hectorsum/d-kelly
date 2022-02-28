@@ -18,7 +18,6 @@ module.exports = function (req: AuthRequest, res: Response, next: NextFunction) 
     
     //* Verify Token
     const data = <jwt.UserIDJwtPayload>jwt.verify(token,config.get('jwtSecret'));
-    console.log('req.user: ',req.user)
     req.user = data.user;
     next();
   }catch(err){
