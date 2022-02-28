@@ -15,7 +15,7 @@ const CustomerSchema = new Schema({
   },
 })
 
-interface ICustomer extends Document {
+export interface ICustomer extends Document {
   fullname: string
   cellphone: string
   company: String
