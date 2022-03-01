@@ -57,7 +57,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Configuracion', icon: FiSettings, path:'/configuracion' },
 ];
 
-export const SidebarScreen = ({ children }: {
+export const SidebarScreen = ({children}: {
   children: ReactNode;
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
