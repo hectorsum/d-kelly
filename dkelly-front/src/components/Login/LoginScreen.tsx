@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Checkbox,
@@ -7,6 +8,7 @@ import {
   FormControl,
   FormLabel,
   Heading,
+  Image,
   Input,
   Link,
   Stack,
@@ -57,13 +59,16 @@ export const LoginScreen: React.FC = () => {
       bg={useColorModeValue('gray.50', 'gray.800')}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
-          <Heading fontSize={'4xl'}>Acceder a D'Kelly</Heading>
+          <Heading fontSize={'4xl'}>
+            <Avatar bg="transparent" display="flex" justifyContent="center" alignItems="center">
+              <Image src={'/dkelly-logo.png'} alt="Garage Logo"/>
+            </Avatar>
+          </Heading>
         </Stack>
         <Box
           rounded={'lg'}
           bg={useColorModeValue('white', 'gray.700')}
           boxShadow={'lg'}
-          
           p={8}>
           <Stack spacing={4}>
             <FormControl id="email">
