@@ -22,7 +22,7 @@ function App() {
   const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>
   useEffect(()=>{
     dispatchStore(loadUser())
-  },[]);
+  },[dispatchStore]);
   return (
     <Provider store={store}>
       <ChakraProvider>
