@@ -15,34 +15,39 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
+import { RootState } from "../../state";
+import { auth } from "../../state/action-creators/auth";
+import { AuthState } from "../../state/actions/auth";
 
 export const LoginScreen: React.FC = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
+  const {email, password} = formData;
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  const data: AuthState = useSelector((state: RootState) => state.auth);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const resp = await fetch("http://localhost:8000/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-    const data = await resp.json();
-    if (data.ok) {
-      const { token } = data;
-      localStorage.setItem("token", token);
-      navigate(`customer`);
-    }
+    dispatch(auth(email, password));
+    // const {data: {data: tokenResponse, ok}} = await axios.post("http://localhost:8000/api/auth", formData, {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+    // if (ok) {
+    //   localStorage.setItem("token", tokenResponse);
+    //   navigate(`clientes`);
+    // }
   };
-
+  if(data.isAuthenticated){
+    navigate(`dashboard`);
+  }
   const inputChange = (e: any) => {
     e.preventDefault();
     setFormData({

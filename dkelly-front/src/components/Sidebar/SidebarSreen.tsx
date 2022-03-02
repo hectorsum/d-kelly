@@ -42,6 +42,10 @@ import { FcSalesPerformance } from 'react-icons/fc';
 import { FaIceCream } from 'react-icons/fa';
 import { HiUsers, HiOutlineUserGroup } from 'react-icons/hi';
 import { BiBox } from 'react-icons/bi';
+import { AuthState } from '../../state/actions/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../state';
+import { logout } from '../../state/action-creators/auth';
 
 interface LinkItemProps {
   name: string;
@@ -159,7 +163,11 @@ const NavItem = ({ path, icon, children, ...rest }: NavItemProps) => {
 interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
-const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+const MobileNav = ({ onOpen, ...rest }: MobileProps) => {  
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+  }
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -230,7 +238,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               <MenuItem>Perfil</MenuItem>
               <MenuItem>Configuracion</MenuItem>
               <MenuDivider />
-              <MenuItem>Cerrar Sesion</MenuItem>
+              <MenuItem onClick={handleLogout}>Cerrar Sesion</MenuItem>
             </MenuList>
           </Menu>
         </Flex>
