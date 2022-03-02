@@ -1,15 +1,16 @@
 import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { Route, Navigate, Outlet } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { AuthState } from '../state/actions/auth';
+import { RootState } from '../state';
 
-const PrivateRoute = () => (
-  <></>
-  //const state =
-  // <Route render={
-  //                           props => !isAuthenticated && !loading ? 
-  //                           (<Navigate to="/login"/>) : 
-  //                           (<Component {...props} />)
-  //                         }
-  // />
-)
+const PrivateRoute = () => {
+  const data: AuthState = useSelector((state: RootState) => state.auth);
+  const {isAuthenticated, loading} = data;
+  console.log("isAuthenticated: ",isAuthenticated)
+  return isAuthenticated && !loading ? <Outlet /> : <Navigate to="/" />;
+
+}
+
+export default PrivateRoute;
