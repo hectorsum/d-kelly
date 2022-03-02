@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, useEffect } from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import {BrowserRouter as Router, Routes, Route, Navigate, Outlet} from 'react-router-dom'
 import LoginScreen from './components/Login/LoginScreen';
@@ -7,15 +7,43 @@ import {store} from './state/store';
 import { SidebarScreen } from './components/Sidebar/SidebarSreen';
 import { CustomerScreen } from './components/Customer/CustomerScreen';
 import { OrderScreen } from './components/Orders/OrderScreen';
+import { ProductScreen } from './components/Products/ProductScreen';
+import { DashboardScreen } from './components/Dashboard/DashboardScreen';
+import { EmployeeScreen } from './components/Employees/EmployeeScreen';
+import { loadUser } from './state/action-creators/auth';
+import setAuthToken from './utils/setAuthToken';
+import PrivateRoute from './routing/PrivateRoute';
+
+if(localStorage.token){
+  setAuthToken(localStorage.token);
+}
+
 function App() {
+  const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>
+  useEffect(()=>{
+    dispatchStore(loadUser())
+  },[]);
   return (
     <Provider store={store}>
       <ChakraProvider>
         <Router>
           <Routes>
             <Route element={<SidebarLayout/>}>
-              <Route path='/clientes' element={<CustomerScreen/>}/>
-              <Route path='/pedidos' element={<OrderScreen/>}/>
+              <Route path='/dashboard' element={<PrivateRoute/>}>
+                <Route path='/dashboard' element={<DashboardScreen/>}/>
+              </Route>
+              <Route path='/clientes' element={<PrivateRoute/>}>
+                <Route path='/clientes' element={<CustomerScreen/>}/>
+              </Route>
+              <Route path='/productos' element={<PrivateRoute/>}>
+                <Route path='/productos' element={<ProductScreen/>}/>
+              </Route>
+              <Route path='/pedidos' element={<PrivateRoute/>}>
+                <Route path='/pedidos' element={<OrderScreen/>}/>
+              </Route>
+              <Route path='/empleados' element={<PrivateRoute/>}>
+                <Route path='/empleados' element={<EmployeeScreen/>}/>
+              </Route>
             </Route>
             <Route path='/' element={<LoginScreen/>}/>
           </Routes>
