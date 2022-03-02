@@ -31,7 +31,7 @@ export class UserController {
       return res.json({
         ok: true,
         msg:"Usuario actualizado satisfactoriamente!",
-        updatedUser,
+        data: updatedUser,
       });
     } catch (error) {
       return res.status(500).send("Server error");
@@ -54,7 +54,7 @@ export class UserController {
       const { id } = req.params;
       const user = await User.findById(id);
       return res.json({
-        user,
+        data: user,
       });
     } catch (error) {
       return res.status(500).send("Server error");

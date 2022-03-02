@@ -8,9 +8,9 @@ export class AuthController {
   constructor() {}
   async getOne(req: any, res: Response) {
     try {
-      const user = await User.findById(req.user.id);
+      const user = await User.findById(req.user.id).select("-password") as IUser;
       res.status(200).json({
-        user
+        data: user
       });
     } catch (error) {
       res.status(500).send("Server Error: "+error)
@@ -36,7 +36,7 @@ export class AuthController {
       return res.json({
         ok: true,
         msg: "User logged",
-        token,
+        data: token,
       });
     } catch (error) {
       return res.status(500).send("Server error");
