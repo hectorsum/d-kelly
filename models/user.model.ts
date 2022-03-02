@@ -12,7 +12,6 @@ const UserSchema = new Schema({
 })
 
 export interface IUser extends Document{
-  user?: string
   email: string
   password: string
 }
