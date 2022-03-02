@@ -1,10 +1,12 @@
-import { forwardRef, IconButton } from '@chakra-ui/react';
+import { forwardRef, IconButton, Menu, MenuButton, MenuItem, MenuList, Portal } from '@chakra-ui/react';
 import React, { useEffect } from 'react'
-import { FiMoreVertical } from 'react-icons/fi';
+import { FiEdit, FiMoreVertical, FiXCircle } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../state';
 import { getProducts } from '../../state/action-creators/products';
-import { ProductState } from '../../state/actions/product';
+import { Product, ProductState } from '../../state/actions/product';
+import MaterialTable from '@material-table/core'
+import { localizationTable, optionsTable, headerStyle, cellStyle } from '../../utils/Table';
 
 export const ActionsButton = forwardRef(({ label, ...rest }, ref) => {
   return (
@@ -35,6 +37,34 @@ export const ProductsTable: React.FC = (): JSX.Element => {
   },[dispatch])
   console.log(data.products);
   return (
-    <div>ProductsTable</div>
+    <MaterialTable
+        options={optionsTable}
+        localization={localizationTable}
+        columns={[
+        { title: 'Nombre', field: 'name', headerStyle, cellStyle},
+        { title: 'Precio', field: 'price', type: 'numeric', headerStyle, cellStyle},
+        { title: 'Stock', field: 'qty', headerStyle, cellStyle},
+        { title: 'Acciones', field: 'actions', render: (rowData: Product) => {
+            return <Menu isLazy placement="left-start">
+              <MenuButton as={ActionsButton}>
+              </MenuButton>
+              <Portal>
+                <MenuList>
+                  <MenuItem
+                    icon={<FiEdit />} 
+                    >Editar
+                  </MenuItem>
+                  <MenuItem
+                    icon={<FiXCircle />} 
+                   >
+                    Eliminar
+                  </MenuItem>
+                </MenuList>
+              </Portal>
+            </Menu>
+        }, headerStyle, cellStyle},
+        ]}
+        data={data.products}
+    /> 
   )
 }
