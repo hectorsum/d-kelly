@@ -39,7 +39,7 @@ const localizationTable = {
       actions: 'Acciones'
   },
   body: {
-      emptyDataSourceMessage: 'No hay clientes',
+      emptyDataSourceMessage: 'No hay datos',
       filterRow: {
           filterTooltip: 'Filtrar'
       }

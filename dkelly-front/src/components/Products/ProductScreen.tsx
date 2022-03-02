@@ -8,7 +8,7 @@ export const ProductScreen = (): JSX.Element => {
   const initialRef = useRef<HTMLInputElement>(null);
   const finalRef = useRef<HTMLHeadingElement>(null);
   return (
-    <Container maxW='container.xl' padding="10">
+    <Container maxW='container.xl' padding="5">
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={5}>
         <Box >
           <Text fontSize="3xl"

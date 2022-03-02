@@ -4,7 +4,7 @@ import {Error} from './index'
 export interface Product {
   _id: string,
   name: string,
-  qty: string,
+  qty: Number,
   price: string,
 }
 

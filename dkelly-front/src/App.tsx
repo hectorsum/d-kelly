@@ -22,12 +22,13 @@ function App() {
   const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>
   useEffect(()=>{
     dispatchStore(loadUser())
-  },[dispatchStore]);
+  },[]);
   return (
     <Provider store={store}>
       <ChakraProvider>
         <Router>
           <Routes>
+            <Route path='/' element={<LoginScreen/>}/>
             <Route element={<SidebarLayout/>}>
               <Route path='/dashboard' element={<PrivateRoute/>}>
                 <Route path='/dashboard' element={<DashboardScreen/>}/>
@@ -45,7 +46,6 @@ function App() {
                 <Route path='/empleados' element={<EmployeeScreen/>}/>
               </Route>
             </Route>
-            <Route path='/' element={<LoginScreen/>}/>
           </Routes>
         </Router>
       </ChakraProvider>

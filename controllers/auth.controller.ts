@@ -39,7 +39,7 @@ export class AuthController {
         data: token,
       });
     } catch (error) {
-      return res.status(500).send("Server error");
+      return res.status(500).send("Server error: "+error);
     }
   }
 }

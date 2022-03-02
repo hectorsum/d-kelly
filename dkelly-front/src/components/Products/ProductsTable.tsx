@@ -1,4 +1,4 @@
-import { forwardRef, IconButton, Menu, MenuButton, MenuItem, MenuList, Portal } from '@chakra-ui/react';
+import { Badge, forwardRef, IconButton, Menu, MenuButton, MenuItem, MenuList, Portal, Stack, Text } from '@chakra-ui/react';
 import React, { useEffect } from 'react'
 import { FiEdit, FiMoreVertical, FiXCircle } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
@@ -42,8 +42,17 @@ export const ProductsTable: React.FC = (): JSX.Element => {
         localization={localizationTable}
         columns={[
         { title: 'Nombre', field: 'name', headerStyle, cellStyle},
-        { title: 'Precio', field: 'price', type: 'numeric', headerStyle, cellStyle},
-        { title: 'Stock', field: 'qty', headerStyle, cellStyle},
+        { title: 'Precio', field: 'price', type: 'numeric',render: ({price}: Product) => {
+          return <Text ml={2}>{"S/."+price.toLocaleString()}</Text>
+        }, headerStyle, cellStyle},
+        { title: 'Stock', field: 'qty', render: ({qty}: Product) => {
+          return <Stack direction='row' ml={2}>
+            {
+              (qty === 0) ? <Badge variant='solid' colorScheme={"red"}>Agotado</Badge> :
+              <Badge variant='solid' colorScheme={(qty < 10) ? "yellow" : "green"}>{qty}</Badge>
+            }
+          </Stack>
+        }, headerStyle, cellStyle},
         { title: 'Acciones', field: 'actions', render: (rowData: Product) => {
             return <Menu isLazy placement="left-start">
               <MenuButton as={ActionsButton}>

@@ -6,7 +6,7 @@ export async function connection() {
     await connect( 
       uri, {
         autoIndex: false,
-        autoCreate: true,
+        autoCreate: true
       }, (error: CallbackError) => {
       if (error){
         console.log(error);
