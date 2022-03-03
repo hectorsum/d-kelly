@@ -19,10 +19,10 @@ export const getCustomers = () => async(dispatch: Dispatch<CustomerAction | Acti
     type: CustomerType.CLEAR_CUSTOMERS,
   })
   try {
-    const res = await axios.get("/api/customer", config);
+    const {data:{data: customerResponse}} = await axios.get("/api/customer", config);
     dispatch({
       type: CustomerType.RETRIEVE_ALL,
-      payload: res.data.customers
+      payload: customerResponse
     })
   } catch (err) {
     let error = err as AxiosError;
@@ -40,10 +40,10 @@ export const getCustomers = () => async(dispatch: Dispatch<CustomerAction | Acti
 
 export const getSingleCustomer = (id: string) => async (dispatch: Dispatch<CustomerAction | Action>) => {
   try {
-    const response = await axios.get<Customer>(`/api/customer/${id}`, config);
+    const {data:{data: customerResponse}} = await axios.get(`/api/customer/${id}`, config);
     dispatch({
       type: CustomerType.RETRIEVE_SINGLE_CUSTOMER,
-      payload: response.data
+      payload: customerResponse
     })
   } catch (err) {
     let error = err as AxiosError;
@@ -62,11 +62,10 @@ export const getSingleCustomer = (id: string) => async (dispatch: Dispatch<Custo
 export const addCustomer = (formData: Customer) => async(dispatch: Dispatch<CustomerAction | Action>) => {
   try {
     console.log("formData: ",formData);
-    const res = await axios.post('/api/customer',formData ,config);
-    console.log("res: ",res);
+    const {data:{data: customerResponse}} = await axios.post('/api/customer',formData ,config);
     dispatch({
       type: CustomerType.ADD,
-      payload: res.data.customer
+      payload: customerResponse
     })
 
   } catch (err) {
@@ -85,12 +84,11 @@ export const addCustomer = (formData: Customer) => async(dispatch: Dispatch<Cust
 
 export const updateCustomer = (id: string, formData: Customer) => async(dispatch: Dispatch<CustomerAction | Action>) => {
   try {
-    let response = await axios.put(`http://localhost:8000/api/customer/${id}`,formData ,config);
+    let {data:{data: customerResponse}} = await axios.put(`http://localhost:8000/api/customer/${id}`,formData ,config);
     dispatch({
       type: CustomerType.EDIT,
-      payload: response.data.customer,
+      payload: customerResponse,
     })
-    console.log(response.data)
   } catch (err) {
     let error = err as AxiosError;
     if (error.response){
