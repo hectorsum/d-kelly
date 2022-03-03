@@ -22,7 +22,7 @@ interface CreateAction {
 
 interface RetrieveAction {
   type: ProductType.RETRIEVE_ALL,
-  payload:Product
+  payload:Product[]
 }
 
 interface ClearProducts {
