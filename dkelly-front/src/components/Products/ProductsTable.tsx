@@ -36,44 +36,50 @@ export const ProductsTable: React.FC = (): JSX.Element => {
     retrieveProducts();
   },[dispatch])
   console.log(data.products);
-  return (
-    <MaterialTable
-        options={optionsTable}
-        localization={localizationTable}
-        columns={[
-        { title: 'Nombre', field: 'name', headerStyle, cellStyle},
-        { title: 'Precio', field: 'price', type: 'numeric',render: ({price}: Product) => {
-          return <Text ml={2}>{"S/."+price.toLocaleString()}</Text>
-        }, headerStyle, cellStyle},
-        { title: 'Stock', field: 'qty', render: ({qty}: Product) => {
-          return <Stack direction='row' ml={2}>
-            {
-              (qty === 0) ? <Badge variant='solid' colorScheme={"red"}>Agotado</Badge> :
-              <Badge variant='solid' colorScheme={(qty < 10) ? "yellow" : "green"}>{qty}</Badge>
-            }
-          </Stack>
-        }, headerStyle, cellStyle},
-        { title: 'Acciones', field: 'actions', render: (rowData: Product) => {
-            return <Menu isLazy placement="left-start">
-              <MenuButton as={ActionsButton}>
-              </MenuButton>
-              <Portal>
-                <MenuList>
-                  <MenuItem
-                    icon={<FiEdit />} 
-                    >Editar
-                  </MenuItem>
-                  <MenuItem
-                    icon={<FiXCircle />} 
-                   >
-                    Eliminar
-                  </MenuItem>
-                </MenuList>
-              </Portal>
-            </Menu>
-        }, headerStyle, cellStyle},
-        ]}
-        data={data.products}
-    /> 
-  )
+  return <>
+    {
+      (!data.loading) && <MaterialTable
+          options={optionsTable}
+          localization={localizationTable}
+          columns={[
+          { title: 'Nombre', field: 'name', headerStyle, cellStyle},
+          { title: 'Precio', field: 'price', type: 'numeric',render: ({price}: Product) => {
+            return <Text ml={2}>{"S/."+price}</Text>
+          }, headerStyle, cellStyle},
+          { title: 'Stock', field: 'qty', render: ({qty}: Product) => {
+            return <Stack direction='row'>
+              {
+                (qty === 0) ? <Badge variant='subtle' rounded="full" colorScheme={"red"} px={2} py={0}>
+                  <Text fontSize="sm">Agotado</Text>
+                </Badge> :
+                <Badge variant='solid' rounded="full" colorScheme={(qty < 10) ? "yellow" : "green"} px={4} py={2}>
+                  <Text fontSize="sm">{qty}</Text>
+                </Badge>
+              }
+            </Stack>
+          }, headerStyle, cellStyle},
+          { title: 'Acciones', field: 'actions', render: (rowData: Product) => {
+              return <Menu isLazy placement="left-start">
+                <MenuButton as={ActionsButton}>
+                </MenuButton>
+                <Portal>
+                  <MenuList>
+                    <MenuItem
+                      icon={<FiEdit />} 
+                      >Editar
+                    </MenuItem>
+                    <MenuItem
+                      icon={<FiXCircle />} 
+                    >
+                      Eliminar
+                    </MenuItem>
+                  </MenuList>
+                </Portal>
+              </Menu>
+          }, headerStyle, cellStyle},
+          ]}
+          data={data.products}
+      /> 
+    }
+  </>
 }
