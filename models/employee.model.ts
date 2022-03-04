@@ -12,6 +12,10 @@ const EmployeeSchema = new Schema({
   cellphone: {
     type: String,
     required: false
+  },
+  weeklysalary: {
+    type: Number,
+    required: true
   }
 })
 

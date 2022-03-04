@@ -1,4 +1,4 @@
-import { Button, FormControl, FormLabel } from '@chakra-ui/react'
+import { Button, FormControl, FormLabel, Textarea } from '@chakra-ui/react'
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/modal'
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input'
 import React, { FC, LegacyRef } from 'react'
@@ -51,12 +51,26 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
             </InputGroup>
           </FormControl>
           <FormControl isRequired mt={4}>
-            <FormLabel>Telefono</FormLabel>
-            <Input placeholder='Telefono' name="cellphone" onChange={(e) => onChange(e)}/>
+            <FormLabel>Productos</FormLabel>
+            <InputGroup>
+              <InputLeftElement
+                pointerEvents='none'
+                color='gray.300'
+                fontSize='1.2em'
+                children={<AiOutlineSearch color='gray.300' />}
+              />
+                <Input
+                  type="search"
+                  name="customer"
+                  placeholder="Nombre de producto"
+                  onChange={onChange}
+                  autoComplete='off'
+                />
+            </InputGroup>
           </FormControl>
           <FormControl isRequired mt={4}>
-            <FormLabel>Direccion</FormLabel>
-            <Input placeholder='Direccion' name="address" onChange={(e) => onChange(e)} />
+            <FormLabel>Notas</FormLabel>
+            <Textarea placeholder='' />
           </FormControl>
         </ModalBody>
         <ModalFooter>

@@ -45,7 +45,7 @@ export class OrderController {
       //* Updating products stock
       const updatedStock = products.map(async(item: IProductCart) => {
         return await Product.findByIdAndUpdate(item.id, {
-          $inc: { qty: item.qty }
+          $inc: { qty: -item.qty }
         })
       })
       await Promise.all(updatedStock).then(data => data).catch(err => err);

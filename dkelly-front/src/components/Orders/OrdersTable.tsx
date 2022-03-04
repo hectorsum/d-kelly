@@ -41,6 +41,7 @@ export const OrdersTable = (): JSX.Element => {
     const retrieveOrders = () => dispatch(getOrders());
     retrieveOrders();
   },[dispatch]);
+  
   // useEffect(() => {
   //   const retrieveCustomers = () => dispatch(getCustomers());
   //   retrieveCustomers();
