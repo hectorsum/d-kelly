@@ -21,7 +21,7 @@ interface CreateAction {
 }
 
 interface RetrieveAction {
-  type: ProductType.RETRIEVE_ALL,
+  type: ProductType.RETRIEVE_ALL_PRODUCTS,
   payload:Product[]
 }
 

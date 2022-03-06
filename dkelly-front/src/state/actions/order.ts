@@ -23,7 +23,7 @@ interface CreateAction {
 }
 
 interface RetrieveAction {
-  type: OrderType.RETRIEVE_ALL,
+  type: OrderType.RETRIEVE_ALL_ORDERS,
   payload: Order[]
 }
 

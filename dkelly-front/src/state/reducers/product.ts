@@ -10,7 +10,7 @@ const initialState: ProductState = {
 
 const reducer = (state: ProductState = initialState, action: ProductAction) => {
   switch(action.type){
-    case ProductType.RETRIEVE_ALL:
+    case ProductType.RETRIEVE_ALL_PRODUCTS:
       return {
         ...state,
         products: action.payload,

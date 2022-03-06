@@ -22,7 +22,7 @@ export const getProducts = () => async(dispatch: Dispatch<ProductAction | Action
     const {data: {data: productResponse}} = await axios.get("http://localhost:8000/api/product", config);
     console.log("productResponse: ",productResponse)
     dispatch({
-      type: ProductType.RETRIEVE_ALL,
+      type: ProductType.RETRIEVE_ALL_PRODUCTS,
       payload: productResponse
     })
   } catch (err) {

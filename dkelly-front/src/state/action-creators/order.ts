@@ -21,7 +21,7 @@ export const getOrders = () => async(dispatch: Dispatch<OrderAction | Action>) =
   try {
     const {data:{data: orderResponse}} = await axios.get("/api/order", config);
     dispatch({
-      type: OrderType.RETRIEVE_ALL,
+      type: OrderType.RETRIEVE_ALL_ORDERS,
       payload: orderResponse
     })
   } catch (err) {

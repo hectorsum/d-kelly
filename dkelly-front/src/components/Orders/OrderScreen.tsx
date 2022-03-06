@@ -2,7 +2,7 @@ import { Box, Button, Container, Icon, Text, useDisclosure } from "@chakra-ui/re
 import { useRef } from "react";
 import { FiPlus } from "react-icons/fi";
 import { AddOrder } from "./AddOrder";
-import { OrdersTable } from "./OrdersTable";
+import {OrdersTable} from "./OrdersTable";
 
 export const OrderScreen = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

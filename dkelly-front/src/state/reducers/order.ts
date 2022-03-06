@@ -12,7 +12,7 @@ const initialState: OrderState = {
 
 const reducer = (state: OrderState = initialState, action: OrderAction) => {
   switch(action.type){
-    case OrderType.RETRIEVE_ALL:
+    case OrderType.RETRIEVE_ALL_ORDERS:
       return {
         ...state,
         orders: action.payload,

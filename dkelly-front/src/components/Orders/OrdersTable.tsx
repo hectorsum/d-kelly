@@ -40,14 +40,14 @@ export const OrdersTable = (): JSX.Element => {
   useEffect(() => {
     const retrieveOrders = () => dispatch(getOrders());
     retrieveOrders();
-  },[dispatch]);
+  },[]);
   
   // useEffect(() => {
   //   const retrieveCustomers = () => dispatch(getCustomers());
   //   retrieveCustomers();
   // },[dispatch]);
   
-  console.log("customers: ",data.orders);
+  console.log("orders: ",data.orders);
   return <>
     {
       (!data.loading) && <MaterialTable
