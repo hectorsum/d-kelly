@@ -3,9 +3,12 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../state";
 import { ProductState } from "../../state/actions/product";
 
-export const ProductsWrapper: React.FC = ({children}) => {
+interface IProps {
+  onClick: () => void;
+}
+export const ProductsWrapper: React.FC<IProps> = ({children, onClick}) => {
   return (
-    <Box>
+    <Box onClick={onClick}>
       {children}
     </Box>
   )

@@ -1,15 +1,16 @@
-import { Input, InputGroup, Avatar, Button, Flex, FormControl, FormLabel, Icon, Text, Textarea, InputRightElement,InputLeftElement, Box, Spacer } from '@chakra-ui/react'
+import { Input, InputGroup, Avatar, Button, Flex, FormControl, FormLabel, Icon, Text, Textarea, InputRightElement,InputLeftElement, Box, Spacer, IconButton } from '@chakra-ui/react'
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/modal'
-import React, { FC, LegacyRef, useEffect, useState } from 'react'
+import React, { FC, LegacyRef, useEffect, useMemo, useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { CUIAutoComplete } from 'chakra-ui-autocomplete'
 import { FiMinus, FiPlus } from 'react-icons/fi'
-import { PhoneIcon } from '@chakra-ui/icons'
+import { ArrowDownIcon, ArrowUpDownIcon, PhoneIcon, SearchIcon } from '@chakra-ui/icons'
 import { ProductsWrapper } from './ProductsWrapper'
 import { Product, ProductState } from '../../state/actions/product'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../state'
 import { ProductItem } from './ProductItem'
+import { getProducts } from '../../state/action-creators/products'
 
 interface IProps {
   initialRef: LegacyRef<HTMLInputElement>,
@@ -20,12 +21,19 @@ interface IProps {
 export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) => {
   const [isActive, setIsActive] = useState(false);
   const {products}: ProductState = useSelector((state: RootState) => state.products);
+  const dispatch = useDispatch();
+  const [formData, setFormData] = useState({
+    customer: "",
+    product: "",
+    products: [],
+    notes: ""
+  })
   const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
-    // setFormData({
-    //   ...formData,
-    //   [e.target.name]: e.target.value
-    // });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   }
   const saveCustomer = (e: any) => {
     e.preventDefault();
@@ -36,7 +44,16 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
     console.log('clicked!')
     return;
   }
-  
+  const filteredCars = useMemo(() => 
+  products.filter((p: Product) => (typeof p.name === 'string' && formData.product) && p.name.toLowerCase().includes(formData.product.toLowerCase())),
+  [products, formData.product]);
+
+  useEffect(() => {
+    const retrieveProducts = () => dispatch(getProducts());
+    retrieveProducts();
+  },[dispatch])
+
+  console.log({filteredCars})
   return (
     <Modal finalFocusRef={finalRef} 
            isOpen={isOpen} 
@@ -45,7 +62,7 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
            size={'md'}
            >
       <ModalOverlay />
-      <ModalContent onBlur={() => setIsActive(false)}>
+      <ModalContent>
         <ModalHeader>Agregar Pedido</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -71,30 +88,37 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
           <FormControl isRequired mb={4}>
             <FormLabel>Productos</FormLabel>
             <InputGroup>
-              <InputLeftElement
+              {/* <InputLeftElement
                 pointerEvents='none'
                 color='gray.300'
                 fontSize='1.2em'
                 children={<AiOutlineSearch color='gray.300' />}
+              /> */}
+              <Input 
+                type="text"
+                name="product"
+                placeholder="Buscar Producto"
+                onChange={onChange}
+                autoComplete='off'
+                onClick={() => setIsActive(true)}
+                mr={1}
               />
-                <Input
-                  type="search"
-                  name="customer"
-                  placeholder="Buscar Producto"
-                  onChange={onChange}
-                  autoComplete='off'
-                  onClick={() => setIsActive(true)}
-                />
+              <IconButton aria-label='Search Product' 
+                          icon={<ArrowUpDownIcon />} 
+                          onClick={() => setIsActive(!isActive)}/>
             </InputGroup>
           </FormControl>
           {
-            (isActive) && <ProductsWrapper>
+            (isActive && filteredCars.length > 0) && <Box onChange={() => setIsActive(true)} 
+                               border="1px solid #ccc" mt={2} mb={4}
+                               borderBottom={"none"}
+                               borderRadius={5}>
               {
-                products.map((p: Product) => (
+                filteredCars.map((p: Product) => (
                   <ProductItem key={p._id} name={p.name}/>
                 ))
               }
-            </ProductsWrapper>
+            </Box>
           }
           <FormControl isRequired mb={4}>
             <FormLabel>Notas</FormLabel>
