@@ -78,7 +78,7 @@ export const addQtyProductCart = (id: string) => (dispatch: Dispatch<CartAction 
 //* Remove qty product
 export const removeQtyProductCart = (id: string) => (dispatch: Dispatch<CartAction | Action>) => {
   dispatch({
-    type: CartType.ADD_QTY_PRODUCT_CART,
+    type: CartType.REMOVE_QTY_PRODUCT_CART,
     payload: id,
   });
 };
