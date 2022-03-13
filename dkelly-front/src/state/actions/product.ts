@@ -4,8 +4,8 @@ import {Error} from './index'
 export interface Product {
   _id: string,
   name: string,
-  qty: Number,
-  price: string,
+  qty: number,
+  price: number,
 }
 
 export interface ProductState {

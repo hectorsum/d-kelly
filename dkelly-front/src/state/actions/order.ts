@@ -4,7 +4,7 @@ import {Error} from './index'
 export interface Order {
   _id?: string,
   customer: string,
-  products: Array<{_id: string, name: string, qty: string}>,
+  products: Array<{_id: string, name: string, qty: number, price: number}>,
   notes: string,
   total?: number,
   date?: Date

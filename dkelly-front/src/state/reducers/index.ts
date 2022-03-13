@@ -3,12 +3,16 @@ import customerReducer from './customer';
 import productReducer from './product';
 import authReducer from './auth';
 import orderReducer from './order';
+import cartReducer from './cart';
+import alertReducer from './alert';
 
 const reducers = combineReducers({
   customers: customerReducer,
   products: productReducer,
   auth: authReducer,
-  orders: orderReducer
+  orders: orderReducer,
+  cart: cartReducer,
+  alerts: alertReducer
 })
 
 export default reducers;
