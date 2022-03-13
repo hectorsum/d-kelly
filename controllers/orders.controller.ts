@@ -3,7 +3,7 @@ import { IOrder, Order } from '../models/order.model'
 import { IProduct, Product } from '../models/product.model';
 
 interface IProductCart {
-  id: string
+  _id: string
   name: string
   qty: number
 }
@@ -19,7 +19,7 @@ export class OrderController {
       
       //* Validating stock availability
       const promisesResponse = products.map(async(item: IProductCart) => {
-        const { name, qty:currentStock } = await Product.findOne({_id: item.id}) as IProduct;
+        const { name, qty:currentStock } = await Product.findOne({_id: item._id}) as IProduct;
         if (item.qty > currentStock) {
           console.log(true);
           errors.push({
@@ -32,7 +32,7 @@ export class OrderController {
       
       //* Getting the total amount
       arrayPromises = products.map(async(item: IProductCart) => {
-        const {price} = await Product.findOne({_id:item.id}) as IProduct;
+        const {price} = await Product.findOne({_id:item._id}) as IProduct;
         let amount = price * item.qty;
         return amount;
       })
@@ -44,7 +44,7 @@ export class OrderController {
 
       //* Updating products stock
       const updatedStock = products.map(async(item: IProductCart) => {
-        return await Product.findByIdAndUpdate(item.id, {
+        return await Product.findByIdAndUpdate(item._id, {
           $inc: { qty: -item.qty }
         })
       })
