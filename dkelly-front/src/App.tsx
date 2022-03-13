@@ -1,5 +1,5 @@
 import React, { Dispatch, useEffect } from 'react';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, Container } from '@chakra-ui/react';
 import {BrowserRouter as Router, Routes, Route, Navigate, Outlet} from 'react-router-dom'
 import LoginScreen from './components/Login/LoginScreen';
 import { Provider } from 'react-redux';
@@ -13,7 +13,7 @@ import { EmployeeScreen } from './components/Employees/EmployeeScreen';
 import { loadUser } from './state/action-creators/auth';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './routing/PrivateRoute';
-
+import Alert from './utils/Alert';
 if(localStorage.token){
   setAuthToken(localStorage.token);
 }
@@ -27,6 +27,7 @@ function App() {
     <Provider store={store}>
       <ChakraProvider>
         <Router>
+          <Alert />
           <Routes>
             <Route path='/' element={<LoginScreen/>}/>
             <Route element={<SidebarLayout/>}>
