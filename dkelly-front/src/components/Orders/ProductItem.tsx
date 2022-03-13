@@ -1,8 +1,10 @@
 import { Badge, border, Box, Button, Flex, Icon, Input, InputGroup, InputLeftElement, InputRightElement, Stack, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FiMinus, FiPlus } from 'react-icons/fi'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../state';
 import {addProductCart,addQtyProductCart,deleteProductCart, removeQtyProductCart, updateProductCart} from '../../state/action-creators/cart';
+import { CartState } from '../../state/actions/cart';
 import { Product } from '../../state/actions/product';
 
 interface IProduct {
@@ -15,7 +17,8 @@ interface IProduct {
 }
 export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}}) => {
   const [isSelected, setIsSelected] = useState(false);
-  const [counter, setCounter] = useState(0)
+  const {cart}: CartState = useSelector((state: RootState) => state.cart);
+  const [counter, setCounter] = useState(1)
   const dispatch = useDispatch();  
   const addToCart = (p: Product): void => {
     if(!isSelected){
@@ -32,7 +35,7 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}})
     }
   }
   const decreaseQty = (): void => {
-    setCounter(() => counter <= 0 ? 0 : counter - 1);
+    setCounter(() => counter <= 1 ? 1 : counter - 1);
     if (counter > 0) {
       dispatch(removeQtyProductCart(_id));
     }
@@ -44,6 +47,14 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}})
   const updateQty = (id: string, qty: number): void => {
     dispatch(updateProductCart(id, qty));
   }
+  const isProductInCart = cart.some(elem => elem._id === _id);
+  useEffect(() => {
+    if(isProductInCart) {
+      setIsSelected(true);
+      const {qty} = cart.find(elem => elem._id === _id) as Product;
+      setCounter(qty);
+    }
+  },[])
   return (
     <Flex borderBottom={"1px solid #ccc"} 
           justifyContent={"space-between"} 
@@ -51,7 +62,7 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}})
           alignItems={"center"} p={3}
           position={"relative"}
           transition={"all 0.2s ease-out"}
-          bgColor={(isSelected) ? "green.100" : "transparent"}
+          bgColor={(isSelected || isProductInCart) ? "green.100" : "transparent"}
           h={"55px"}
           >
       <Flex>
@@ -75,7 +86,7 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}})
         </Text>
       </Flex>
       {
-        (isSelected) && 
+        (isSelected || isProductInCart) && 
         <InputGroup
           size="sm"
           display="flex"
@@ -105,7 +116,7 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}})
             value={counter}
             isReadOnly
             variant="unstyled"
-            onChange={(e) => {
+            onChange={() => {
               updateQty(_id, counter)
             }}
           />
