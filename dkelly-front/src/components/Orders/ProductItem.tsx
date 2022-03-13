@@ -42,7 +42,10 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}})
   }
   const increaseQty = (): void => {
     setCounter(() => counter === qty ? qty : counter + 1)
-    dispatch(addQtyProductCart(_id))
+    if(counter < qty){
+      dispatch(addQtyProductCart(_id))
+    }
+    
   }
   const updateQty = (id: string, qty: number): void => {
     dispatch(updateProductCart(id, qty));
