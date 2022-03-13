@@ -13,11 +13,17 @@ const ProductSchema = new Schema({
     type: Number,
     required: [true, 'price is required']
   },
+  type:{
+    type: String,
+    required: false,
+    default:"helado"
+  }
 })
 export interface IProduct {
   name: string
   qty: number
   price: number
+  type: string
 }
 
 export const Product = model<IProduct>('product', ProductSchema)
