@@ -2,15 +2,15 @@ import { Input, InputGroup, Avatar, Button, Flex, FormControl, FormLabel, Icon, 
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/modal'
 import React, { FC, LegacyRef, useEffect, useMemo, useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
-import { CUIAutoComplete } from 'chakra-ui-autocomplete'
-import { FiMinus, FiPlus } from 'react-icons/fi'
 import { ArrowDownIcon, ArrowUpDownIcon, PhoneIcon, SearchIcon } from '@chakra-ui/icons'
-import { ProductsWrapper } from './ProductsWrapper'
 import { Product, ProductState } from '../../state/actions/product'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../state'
 import { ProductItem } from './ProductItem'
 import { getProducts } from '../../state/action-creators/products'
+import { removeAllProducts } from '../../state/action-creators/cart'
+import { CartState } from '../../state/actions/cart'
+import {addOrder} from '../../state/action-creators/order'
 
 interface IProps {
   initialRef: LegacyRef<HTMLInputElement>,
@@ -21,9 +21,10 @@ interface IProps {
 export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) => {
   const [isActive, setIsActive] = useState(false);
   const {products}: ProductState = useSelector((state: RootState) => state.products);
+  const {cart}: CartState = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    customer: "",
+    customer: "621c2280440663345398475c",
     product: "",
     products: [],
     notes: ""
@@ -35,31 +36,33 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
       [e.target.name]: e.target.value
     });
   }
-  const saveCustomer = (e: any) => {
-    e.preventDefault();
-    // dispatch(addCustomer(formData));
+  const saveOrder = () => {
+    dispatch(addOrder({
+      customer: formData.customer,
+      products: cart,
+      notes: formData.notes
+    }));
     onClose();
-  }
-  const handleIncrease = () => {
-    console.log('clicked!')
-    return;
   }
   const filteredCars = useMemo(() => 
   products.filter((p: Product) => (typeof p.name === 'string' && formData.product) && p.name.toLowerCase().includes(formData.product.toLowerCase())),
   [products, formData.product]);
-
+  const closeModal = () => {
+    dispatch(removeAllProducts())
+    onClose()
+  }
   useEffect(() => {
     const retrieveProducts = () => dispatch(getProducts());
     retrieveProducts();
   },[dispatch])
-
+  
   console.log({filteredCars})
   return (
     <Modal finalFocusRef={finalRef} 
            isOpen={isOpen} 
-           onClose={onClose} 
+           onClose={closeModal} 
            motionPreset='slideInBottom' 
-           size={'md'}
+           size={'lg'}
            >
       <ModalOverlay />
       <ModalContent>
@@ -80,7 +83,7 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
                   name="customer"
                   placeholder="Buscar por Nombre"
                   onChange={onChange}
-                  value={"Hector Herrera"}
+                  value={formData.customer}
                   autoComplete='off'
                 />
             </InputGroup>
@@ -115,7 +118,7 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
                                borderRadius={5}>
               {
                 filteredCars.map((p: Product) => (
-                  <ProductItem key={p._id} name={p.name}/>
+                  <ProductItem key={p._id} product={p}/>
                 ))
               }
             </Box>
@@ -126,10 +129,10 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
           </FormControl>
         </ModalBody>
         <ModalFooter>
-          <Button mr={3} onClick={onClose}>
+          <Button mr={3} onClick={closeModal}>
             Cerrar
           </Button>
-          <Button colorScheme='blue' onClick={(e) => saveCustomer(e)}>Guardar</Button>
+          <Button colorScheme='blue' onClick={() => saveOrder()}>Guardar</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
