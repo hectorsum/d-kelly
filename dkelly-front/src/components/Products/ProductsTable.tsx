@@ -46,13 +46,13 @@ export const ProductsTable: React.FC = (): JSX.Element => {
           { title: 'Precio', field: 'price', type: 'numeric',render: ({price}: Product) => {
             return <Text ml={2}>{"S/."+price}</Text>
           }, headerStyle, cellStyle},
-          { title: 'Stock', field: 'qty', render: ({qty}: Product) => {
+          { title: 'Stock Unit', field: 'qty', render: ({qty}: Product) => {
             return <Stack direction='row'>
               {
                 (qty === 0) ? <Badge variant='subtle' rounded="full" colorScheme={"red"} px={2} py={0}>
                   <Text fontSize="sm">Agotado</Text>
                 </Badge> :
-                <Badge variant='solid' rounded="full" colorScheme={(qty < 10) ? "yellow" : "green"} px={4} py={2}>
+                <Badge variant='subtle' rounded="full" colorScheme={(qty < 10) ? "yellow" : "blue"} px={2} py={2}>
                   <Text fontSize="sm">{qty}</Text>
                 </Badge>
               }
