@@ -1,4 +1,4 @@
-import { Input, InputGroup, Avatar, Button, Flex, FormControl, FormLabel, Icon, Text, Textarea, InputRightElement,InputLeftElement, Box, Spacer, IconButton } from '@chakra-ui/react'
+import { Input, InputGroup, Avatar, Button, Flex, FormControl, FormLabel, Icon, Text, Textarea, InputRightElement,InputLeftElement, Box, Spacer, IconButton, Switch } from '@chakra-ui/react'
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/modal'
 import React, { FC, LegacyRef, useEffect, useMemo, useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
@@ -70,7 +70,7 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
     const current_target = e.currentTarget;
     
     if(!current_target.contains(e.relatedTarget)){
-      setIsInputChanging(false);
+      setIsActive(false);
     }
   }
   useEffect(() => {
@@ -197,6 +197,17 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
           <FormControl isRequired mb={4}>
             <FormLabel>Notas</FormLabel>
             <Textarea placeholder='' />
+          </FormControl>
+          <FormControl isRequired>
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Spacer/>
+              <FormControl display='flex' alignItems='center' width="fit-content">
+                <FormLabel htmlFor='email-alerts' mb='0'>
+                  ¿Esta cancelado completo?
+                </FormLabel>
+                <Switch id='email-alerts' size="lg" />
+              </FormControl>
+            </Box>
           </FormControl>
         </ModalBody>
         <ModalFooter>
