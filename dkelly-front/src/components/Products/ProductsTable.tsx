@@ -52,9 +52,18 @@ export const ProductsTable: React.FC = (): JSX.Element => {
                 (qty === 0) ? <Badge variant='subtle' rounded="full" colorScheme={"red"} px={2} py={0}>
                   <Text fontSize="sm">Agotado</Text>
                 </Badge> :
-                <Badge variant='subtle' rounded="full" colorScheme={(qty < 10) ? "yellow" : "blue"} px={2} py={2}>
-                  <Text fontSize="sm">{qty}</Text>
-                </Badge>
+                <Stack minW={"30px"}>
+                  <Badge variant='subtle' 
+                         rounded="full" 
+                         colorScheme={(qty < 10) ? "yellow" : "blue"}
+                         width={"auto"}
+                         display={"flex"} 
+                         justifyContent={"center"}
+                         alignItems={"center"}
+                        >
+                    <Text fontSize="sm">{qty}</Text>
+                  </Badge>
+                </Stack>
               }
             </Stack>
           }, headerStyle, cellStyle},
