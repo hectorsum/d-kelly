@@ -14,6 +14,7 @@ import { loadUser } from './state/action-creators/auth';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './routing/PrivateRoute';
 import Alert from './utils/Alert';
+import { OrderByCustomerScreen } from './components/Orders/OrderByCustomer/OrderByCustomerScreen';
 if(localStorage.token){
   setAuthToken(localStorage.token);
 }
@@ -42,6 +43,9 @@ function App() {
               </Route>
               <Route path='/pedidos' element={<PrivateRoute/>}>
                 <Route path='/pedidos' element={<OrderScreen/>}/>
+              </Route>
+              <Route path='/pedidos/cliente/:id' element={<PrivateRoute/>}>
+                <Route path='/pedidos/cliente/:id' element={<OrderByCustomerScreen/>}/>
               </Route>
               <Route path='/empleados' element={<PrivateRoute/>}>
                 <Route path='/empleados' element={<EmployeeScreen/>}/>
