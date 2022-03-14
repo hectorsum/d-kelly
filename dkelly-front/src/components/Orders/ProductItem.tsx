@@ -25,7 +25,7 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}})
       dispatch(addProductCart({
         _id,
         name,
-        qty:0,
+        qty:counter,
         price
       }))
       setIsSelected(true)
