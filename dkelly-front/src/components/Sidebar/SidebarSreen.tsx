@@ -135,12 +135,13 @@ const NavItem = ({ path, icon, children, ...rest }: NavItemProps) => {
       <Flex
         align="center"
         p="4"
-        mx="4"
-        borderRadius="lg"
+        mx="2"
+        borderRadius="md"
         role="group"
         cursor="pointer"
+        transition={"background 0.3s ease"}
         _hover={{
-          bg: 'cyan.400',
+          bg: '#b43137',
           color: 'white',
         }}
         {...rest}>
