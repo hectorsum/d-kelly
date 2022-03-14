@@ -18,6 +18,11 @@ const OrderSchema = new Schema({
         }
       }
     ],
+    hasPaid: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     total: {
       type: Number,
       required: false
