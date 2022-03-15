@@ -14,7 +14,7 @@ export class OrderController {
       let total: number;
       let arrayPromises: number[];
       let arrayPrices: number[];
-      const {products, customer, notes} = req.body;
+      const {products, customer, notes, hasPaid} = req.body;
       const errors = [] as Array<{msg: string}>;
       
       //* Validating stock availability
@@ -60,8 +60,10 @@ export class OrderController {
         products: soldProducts,
         customer,
         notes,
-        total
+        total,
+        hasPaid
       });
+      console.log("order: ",order);
       res.json({
         ok: true,
         msg:"Pedido registrada satisfactoriamente!",
@@ -130,6 +132,23 @@ export class OrderController {
       const order = await Order.findById({_id: req.params.id}) as IOrder;
       res.json({
         ok: true,
+        data: order
+      })
+    } catch (error) {
+      console.log(error)
+      res.json({
+        ok: false,
+        msg: error
+      })
+    }
+  }
+  async confirmPayment(req: Request, res: Response){
+    try {
+      const order = await Order.findByIdAndUpdate(req.params.id, { hasPaid: true }, {new: true});
+      console.log("order: ",order);
+      res.json({
+        ok: true,
+        msg: "Payment Confirmed",
         data: order
       })
     } catch (error) {

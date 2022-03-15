@@ -29,4 +29,9 @@ app.put('/:id', auth, controller.update);
 // @access Private
 app.delete('/:id', auth, controller.delete);
 
+// @route  PUT api/order/payment/:id
+// @des    Confirm Payment
+// @access Private
+app.put('/payment/:id', auth, controller.confirmPayment);
+
 export default app;
