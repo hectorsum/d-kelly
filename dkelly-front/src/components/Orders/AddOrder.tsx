@@ -29,14 +29,15 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
   const {customer: customerSelected,customers}: CustomerState = useSelector((state: RootState) => state.customers);
   const {cart}: CartState = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
+  const [hasPaid, setHasPaid] = useState<boolean>(false);
   const [formData, setFormData] = useState({
     customerid:"",
     customer: "",
     product: "",
     products: [],
-    notes: ""
+    notes: "",
   })
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     e.preventDefault();
     setFormData({
       ...formData,
@@ -47,11 +48,12 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
     dispatch(addOrder({
       customer: formData.customerid,
       products: cart,
-      notes: formData.notes
+      notes: formData.notes,
+      hasPaid: hasPaid
     }));
     onClose();
   }
-  
+  console.log("haspaid: ",formData.notes)
   const filteredProducts = useMemo(() => 
   products.filter((p: Product) => (typeof p.name === 'string' && formData.product && p.qty > 0) && p.name.toLowerCase().includes(formData.product.toLowerCase())),
   [products, formData.product]);
@@ -91,7 +93,7 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
       });
     }
   },[customerSelected])
-  console.log("customer: ",customerSelected);
+
   return (
     <Modal finalFocusRef={finalRef} 
            isOpen={isOpen} 
@@ -194,9 +196,9 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
               </Box>
             }
           </FormControl>
-          <FormControl isRequired mb={4}>
+          <FormControl mb={4}>
             <FormLabel>Notas</FormLabel>
-            <Textarea placeholder='' />
+            <Textarea onChange={onChange} name={"notes"} value={formData.notes} resize={"none"}/>
           </FormControl>
           <FormControl isRequired>
             <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -205,7 +207,7 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
                 <FormLabel htmlFor='email-alerts' mb='0'>
                   ¿Esta cancelado completo?
                 </FormLabel>
-                <Switch id='email-alerts' size="lg" />
+                <Switch id='email-alerts' size="lg" onChange={(e) => setHasPaid(!hasPaid)} name={"hasPaid"}/>
               </FormControl>
             </Box>
           </FormControl>

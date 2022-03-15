@@ -1,6 +1,6 @@
-import { Badge, Box, Button, Flex, forwardRef, Icon, IconButton, Link, Menu, MenuButton, MenuItem, MenuList, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Portal, Stack, Text, Tooltip } from '@chakra-ui/react';
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Badge, Box, Button, Flex, forwardRef, Icon, IconButton, Link, Menu, MenuButton, MenuItem, MenuList, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Portal, Stack, Text, Tooltip, useDisclosure } from '@chakra-ui/react';
 import MaterialTable from '@material-table/core';
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import dayjs from "dayjs";
 import { FiEdit, FiEye, FiMoreVertical, FiXCircle } from 'react-icons/fi';
 import { BsCart } from 'react-icons/bs';
@@ -13,6 +13,8 @@ import { Customer, CustomerState } from '../../state/actions/customer';
 import { Order, OrderState } from '../../state/actions/order';
 import { localizationTable, optionsTable, headerStyle, cellStyle } from '../../utils/Table';
 import {Link as ReactRouterLink} from 'react-router-dom';
+import { WarningIcon, WarningTwoIcon } from '@chakra-ui/icons';
+import { setIsConfirming } from '../../state/action-creators/popup';
 
 export const ActionsButton = forwardRef(({ label, ...rest }, ref) => {
   return (
@@ -47,21 +49,21 @@ export const OrdersTable = (): JSX.Element => {
     retrieveCustomers();
   },[dispatch]);
   
-  console.log("customers: ",customers); 
   return <>
     {
-      (!data.loading) && <MaterialTable
+      (!data.loading && customers) && <MaterialTable
           options={optionsTable}
           localization={localizationTable}
           columns={[
           { title: 'Cliente', field: 'customer', render: ({customer: customer_id}: Order) => {
-            const {fullname} = customers.find((c: Customer) => c._id === customer_id ? c.fullname : "") as Customer;
+            // const {fullname} = customers.find((c: Customer) => (c._id === customer_id) ? c.fullname : "") as Customer;
+            const fullname = "" as string;
             return <Tooltip label={`Ver las ventas de ${(fullname.length > 0) ? fullname.split(" ")[0] : ""}`} 
                             bg='gray.300' 
                             color='black' 
                             hasArrow>
               <Link as={ReactRouterLink} color='teal.500' to={`/pedidos/cliente/${customer_id}`} textDecoration={"none"}>
-                {(fullname.length > 0) ? fullname : ""}
+                {(fullname && fullname.length > 0) ? fullname : ""}
               </Link>
             </Tooltip>
           }, headerStyle, cellStyle},
@@ -135,7 +137,20 @@ export const OrdersTable = (): JSX.Element => {
             return <Text>{dayjs(rowdata.date).format("DD/MM/YYYY HH:mma")}</Text>
           }, headerStyle, cellStyle},
           { title: 'Total', field: 'total', render: (rowdata: Order) => {
-            return <Text>{"S/."+rowdata.total}</Text>
+            return <Flex alignItems={"center"}>
+              <Text mr={2} minW={"75px"}>{"S/."+(Math.round((rowdata.total!) * 100) / 100).toFixed(2)}</Text>
+              { 
+                (!rowdata.hasPaid) &&
+                <Tooltip label={`Falta cancelar el pedido`}
+                         bg='gray.300' 
+                         color='black' 
+                         hasArrow>
+                  <Link m={0} display={"flex"} alignItems={"center"} onClick={() => dispatch(setIsConfirming({ isOpen: true, idSelected: rowdata._id! }))} >
+                    <WarningIcon w={4} h={4} color={"yellow.500"}/>
+                  </Link>
+                </Tooltip>
+              }
+            </Flex>
           }, headerStyle, cellStyle},
           { title: 'Acciones', field: 'actions', render: (rowData: Order) => {
               return <Menu isLazy placement="left-start">
