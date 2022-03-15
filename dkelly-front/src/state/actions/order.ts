@@ -7,7 +7,8 @@ export interface Order {
   products: Array<{_id: string, name: string, qty: number, price: number}>,
   notes: string,
   total?: number,
-  date?: Date
+  date?: Date,
+  hasPaid: boolean
 }
 
 export interface OrderState {
@@ -18,7 +19,7 @@ export interface OrderState {
 }
 
 interface CreateAction {
-  type: OrderType.ADD,
+  type: OrderType.ADD_ORDER,
   payload: Order
 }
 
@@ -32,24 +33,27 @@ interface ClearOrders {
 }
 
 interface EditOrder {
-  type: OrderType.EDIT,
+  type: OrderType.EDIT_ORDER,
   payload: Order
 }
 interface DeleteOrder {
-  type: OrderType.DELETE,
+  type: OrderType.DELETE_ORDER,
   payload: string
 }
 interface RetrieveSingleOrder {
   type: OrderType.RETRIEVE_SINGLE_ORDER,
   payload: Order
 }
-
+interface ConfirmPaymentAction {
+  type: OrderType.CONFIRM_PAYMENT,
+  payload: Order
+}
 interface ErrorAction {
-  type: OrderType.ERROR,
+  type: OrderType.ERROR_ORDER,
   payload: Error
 }
 export type OrderAction = RetrieveAction | ClearOrders |
                              CreateAction | 
                              DeleteOrder |
-                             EditOrder |
+                             EditOrder | ConfirmPaymentAction |
                              RetrieveSingleOrder | ErrorAction;

@@ -8,7 +8,6 @@ const initialState: AlertState = {
 const reducer = (state: AlertState = initialState, action: AlertAction) => {
   switch (action.type) {
     case AlertType.SET_ALERT:
-      console.table([...state.alerts, action.payload]);
       return { ...state, alerts: [action.payload, ...state.alerts] };
     case AlertType.REMOVE_ALERT:
       return {

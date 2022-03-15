@@ -26,26 +26,27 @@ const reducer = (state: OrderState = initialState, action: OrderAction) => {
         loading:false,
         error:null
       }
-    case OrderType.ADD:
+    case OrderType.ADD_ORDER:
       return {
         ...state,
         orders: [action.payload, ...state.orders],
         loading: false,
         error: null
       }
-    case OrderType.EDIT:
+    case OrderType.CONFIRM_PAYMENT:
+    case OrderType.EDIT_ORDER:
       return {
         ...state,
         loading: false,
         orders: state.orders.map(order => order._id === action.payload._id ? order = action.payload : order)
       }
-    case OrderType.DELETE:
+    case OrderType.DELETE_ORDER:
       return {
         ...state,
         loading: false,
         orders: state.orders.filter(order => order._id !== action.payload)
       }
-    case OrderType.ERROR:
+    case OrderType.ERROR_ORDER:
       return {
         ...state,
         error: action.payload,

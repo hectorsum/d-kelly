@@ -5,6 +5,7 @@ import authReducer from './auth';
 import orderReducer from './order';
 import cartReducer from './cart';
 import alertReducer from './alert';
+import popupReducer from './popup';
 
 const reducers = combineReducers({
   customers: customerReducer,
@@ -12,7 +13,8 @@ const reducers = combineReducers({
   auth: authReducer,
   orders: orderReducer,
   cart: cartReducer,
-  alerts: alertReducer
+  alerts: alertReducer,
+  popup: popupReducer
 })
 
 export default reducers;
