@@ -8,6 +8,10 @@ const OrderSchema = new Schema({
     },
     products:[
       {
+        _id:{
+          type: Schema.Types.ObjectId,
+          ref: "product"
+        },
         name: {
           type: String,
           required: true
@@ -39,7 +43,7 @@ const OrderSchema = new Schema({
 
 export interface IOrder extends Document {
   customer: string
-  products: String[]
+  products: Array<{_id: string, name: string, qty: number}>
   total: number,
   notes:string
 }
