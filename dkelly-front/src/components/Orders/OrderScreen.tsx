@@ -7,13 +7,18 @@ import { confirmPayment } from "../../state/action-creators/order";
 import { setIsConfirming } from "../../state/action-creators/popup";
 import { PopupAction, PopupState } from "../../state/actions/popup";
 import { AddOrder } from "./AddOrder";
+import { EditOrder } from "./EditOrder";
 import {OrdersTable} from "./OrdersTable";
 
 export const OrderScreen = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen:isOpenEdit, onOpen: onOpenEdit, onClose:onCloseEdit } = useDisclosure();
   const initialRef = useRef<HTMLInputElement>(null);
   const finalRef = useRef<HTMLHeadingElement>(null);
-  const { isConfirming:{isOpen: isOpenConfirm, idSelected} }: PopupState = useSelector((state: RootState) => state.popup);
+  const editInitRef = useRef<HTMLInputElement>(null);
+  const editFinalRef = useRef<HTMLHeadingElement>(null);
+  const { isConfirming:{isOpen: isOpenConfirm, idSelected}, 
+          isEditing:{isOpen: isEditOpen} }: PopupState = useSelector((state: RootState) => state.popup);
 
   const cancelRef = useRef<any>();
   const dispatch = useDispatch();
@@ -27,9 +32,9 @@ export const OrderScreen = () => {
     handleClose();
     dispatch(confirmPayment(idSelected!))
   }
-  console.log("isConfirming: ",isOpenConfirm)
+  console.log("isEditOpen: ",isEditOpen)
   return (
-    <Container maxW='container.xl' padding="5" >
+    <Container maxW='container.lg' padding="5" >
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={5}>
         <Box >
           <Text fontSize="3xl"
@@ -46,6 +51,9 @@ export const OrderScreen = () => {
       <OrdersTable/>
       {
         (isOpen) && <AddOrder initialRef={initialRef} finalRef={finalRef} isOpen={isOpen} onClose={onClose}/>
+      }
+      {
+        (isEditOpen) && <EditOrder initialRef={editInitRef} finalRef={editFinalRef} isOpen={isEditOpen} onClose={onCloseEdit}/>
       }
       {
         (isOpenConfirm) && <AlertDialog
