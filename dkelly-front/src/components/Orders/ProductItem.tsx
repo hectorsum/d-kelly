@@ -56,8 +56,10 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}})
       setIsSelected(true);
       const {qty} = cart.find(elem => elem._id === _id) as Product;
       setCounter(qty);
+    }else{
+      setIsSelected(false);
     }
-  },[])
+  },[_id, cart])
   return (
     <Flex borderBottom={"1px solid #ccc"} 
           justifyContent={"space-between"} 

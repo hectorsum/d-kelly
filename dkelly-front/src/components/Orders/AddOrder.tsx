@@ -10,7 +10,7 @@ import { ProductItem } from './ProductItem'
 import { getProducts } from '../../state/action-creators/products'
 import { removeAllProducts } from '../../state/action-creators/cart'
 import { CartState } from '../../state/actions/cart'
-import {addOrder} from '../../state/action-creators/order'
+import { addOrder } from '../../state/action-creators/order'
 import { getCustomers, getSingleCustomer } from '../../state/action-creators/customer'
 import { Customer, CustomerState } from '../../state/actions/customer'
 import { CustomerItem } from './CustomerItem'
@@ -51,9 +51,9 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
       notes: formData.notes,
       hasPaid: hasPaid
     }));
+    dispatch(removeAllProducts())
     onClose();
   }
-  console.log("haspaid: ",formData.notes)
   const filteredProducts = useMemo(() => 
   products.filter((p: Product) => (typeof p.name === 'string' && formData.product && p.qty > 0) && p.name.toLowerCase().includes(formData.product.toLowerCase())),
   [products, formData.product]);
@@ -66,15 +66,7 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
     dispatch(removeAllProducts())
     onClose()
   }
-  const handleOnBlur = (e: React.FocusEvent<HTMLElement, Element>): void => {
-    console.log("blur!!!")
-    e.stopPropagation();
-    const current_target = e.currentTarget;
-    
-    if(!current_target.contains(e.relatedTarget)){
-      setIsActive(false);
-    }
-  }
+  
   useEffect(() => {
     const retrieveProducts = () => dispatch(getProducts());
     retrieveProducts();
@@ -149,12 +141,6 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
           <FormControl isRequired mb={4} position="relative">
             <FormLabel>Productos</FormLabel>
             <InputGroup>
-              {/* <InputLeftElement
-                pointerEvents='none'
-                color='gray.300'
-                fontSize='1.2em'
-                children={<AiOutlineSearch color='gray.300' />}
-              /> */}
               <Input 
                 type="text"
                 name="product"
@@ -204,7 +190,7 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
             <Box display="flex" justifyContent="space-between" alignItems="center">
               <Spacer/>
               <FormControl display='flex' alignItems='center' width="fit-content">
-                <FormLabel htmlFor='email-alerts' mb='0'>
+                <FormLabel htmlFor='email-alerts' mb='0' cursor="pointer">
                   ¿Esta cancelado completo?
                 </FormLabel>
                 <Switch id='email-alerts' size="lg" onChange={(e) => setHasPaid(!hasPaid)} name={"hasPaid"}/>
@@ -213,10 +199,8 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
           </FormControl>
         </ModalBody>
         <ModalFooter>
-          <Button mr={3} onClick={closeModal}>
-            Cerrar
-          </Button>
-          <Button colorScheme='blue' onClick={() => saveOrder()}>Guardar</Button>
+          <Button mr={3} onClick={closeModal}> Cerrar </Button>
+          <Button colorScheme='blue' onClick={() => saveOrder()}>Generar Pedido</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
