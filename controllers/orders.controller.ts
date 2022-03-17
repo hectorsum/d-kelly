@@ -18,6 +18,7 @@ export class OrderController {
       const errors = [] as Array<{msg: string}>;
       
       //* Validating stock availability
+      console.log("products: ",products)
       const promisesResponse = products.map(async(item: IProductCart) => {
         const { name, qty:currentStock } = await Product.findOne({_id: item._id}) as IProduct;
         if (item.qty > currentStock) {
@@ -52,6 +53,7 @@ export class OrderController {
       
       const soldProducts = products.map((item: IProductCart) => {
         return {
+          _id: item._id,
           name: item.name,
           qty: item.qty
         }
@@ -80,9 +82,78 @@ export class OrderController {
   async update (req: Request, res: Response){
     try {
       const {products} = req.body;
-      const exists = await Order.exists({_id: req.params.id});
-      if (!exists) return res.status(500).send("Orden de pedido no existe");
-      const order = await Order.findByIdAndUpdate(req.params.id,products, {new: true});
+      let total: number;
+      let arrayPromises: number[];
+      let arrayPrices: number[];
+      const oldOrder = await Order.findById({_id: req.params.id}) as IOrder;
+      const errors = [] as Array<{msg: string}>;
+      if (!oldOrder) return res.status(500).send("Orden de pedido no existe");
+      
+      //* Validating stock availability
+      const promisesResponse = products.map(async(item: IProductCart) => {
+        let productIsInCart = oldOrder.products.find(elem => (elem._id.toString() === item._id.toString()));
+        let { name, qty:currentStock } = await Product.findOne({_id: item._id}) as IProduct;
+        if (productIsInCart && (item.qty > productIsInCart.qty || item.qty < productIsInCart.qty)){ //if incoming qty is greater than the previous qty, when we sum
+          currentStock += productIsInCart.qty; //returns back the stock 
+        }
+        if (item.qty > currentStock) {
+          errors.push({
+            "msg": `No hay stock suficiente para ${name}, stock disponible(${currentStock})`
+          })
+        }
+      })
+
+      await Promise.all(promisesResponse).then(data => data).catch(err => err);
+      if (errors.length > 0) return res.status(500).json({errors: errors});
+
+      //* Getting the total amount
+      arrayPromises = products.map(async(item: IProductCart) => {
+        const {price} = await Product.findOne({_id:item._id}) as IProduct;
+        let amount = price * item.qty;
+        return amount;
+      })
+
+      arrayPrices = await Promise.all<Array<number>>(arrayPromises);
+      total = arrayPrices.reduce((total, num) => {
+        return total + num;
+      },0);
+
+      // * Updating products stock
+      const updatedStock = products.map(async(item: IProductCart) => {
+        let productIsInCart = oldOrder.products.find(elem => (elem._id.toString() === item._id.toString()));
+        let removedProductFromCart = oldOrder.products.find(elem => (elem._id.toString() !== item._id.toString()));
+        if (productIsInCart){
+          if(item.qty > productIsInCart.qty){
+            let qtyToReturn = item.qty - productIsInCart.qty;
+            return await Product.findByIdAndUpdate(item._id, {
+              $inc: { qty: -qtyToReturn }
+            })
+          }else if (item.qty < productIsInCart.qty){
+            let qtyToReturn = productIsInCart.qty - item.qty;
+            return await Product.findByIdAndUpdate(item._id, {
+              $inc: { qty: qtyToReturn }
+            })
+          }else if (item.qty === productIsInCart.qty){
+            return await Product.findByIdAndUpdate(item._id, {
+              $inc: { qty: 0 }
+            })
+          }
+        }else if (removedProductFromCart){
+          return await Product.findByIdAndUpdate(removedProductFromCart._id, {
+            $inc: { qty: removedProductFromCart.qty }
+          })
+        }else{
+          return await Product.findByIdAndUpdate(item._id, {
+            $inc: { qty: -item.qty }
+          })
+        }
+      })
+      await Promise.all(updatedStock).then(data => data).catch(err => err);
+
+      const order = await Order.findByIdAndUpdate(req.params.id,{
+        products,
+        total
+      }, {new: true});
       res.json({
         ok: true,
         msg:"Boleta editada satisfactoriamente!",
@@ -145,7 +216,6 @@ export class OrderController {
   async confirmPayment(req: Request, res: Response){
     try {
       const order = await Order.findByIdAndUpdate(req.params.id, { hasPaid: true }, {new: true});
-      console.log("order: ",order);
       res.json({
         ok: true,
         msg: "Payment Confirmed",
