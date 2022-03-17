@@ -1,4 +1,4 @@
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Badge, Box, Button, Flex, forwardRef, Icon, IconButton, Link, Menu, MenuButton, MenuItem, MenuList, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Portal, Stack, Text, Tooltip, useDisclosure } from '@chakra-ui/react';
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Badge, Box, Button, Container, Flex, forwardRef, Icon, IconButton, Link, Menu, MenuButton, MenuItem, MenuList, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Portal, Skeleton, Spinner, Stack, Text, Tooltip, useDisclosure } from '@chakra-ui/react';
 import MaterialTable from '@material-table/core';
 import React, { FC, useEffect, useRef, useState } from 'react'
 import dayjs from "dayjs";
@@ -14,7 +14,7 @@ import { Order, OrderState } from '../../state/actions/order';
 import { localizationTable, optionsTable, headerStyle, cellStyle } from '../../utils/Table';
 import {Link as ReactRouterLink} from 'react-router-dom';
 import { WarningIcon, WarningTwoIcon } from '@chakra-ui/icons';
-import { setIsConfirming } from '../../state/action-creators/popup';
+import { setIsConfirming, setIsEditing } from '../../state/action-creators/popup';
 
 export const ActionsButton = forwardRef(({ label, ...rest }, ref) => {
   return (
@@ -48,24 +48,29 @@ export const OrdersTable = (): JSX.Element => {
     const retrieveCustomers = () => dispatch(getCustomers());
     retrieveCustomers();
   },[dispatch]);
-  
+  const handleEditOrder = (idSelected: string) => {
+    console.log("idSelected: ",idSelected)
+    dispatch(setIsEditing({
+      idSelected,
+      isOpen: true
+    }))
+  }
   return <>
     {
-      (!data.loading && customers) && <MaterialTable
+      (!data.loading && customers) ? <MaterialTable
           options={optionsTable}
           localization={localizationTable}
           columns={[
           { title: 'Cliente', field: 'customer', render: ({customer: customer_id}: Order) => {
-            // const {fullname} = customers.find((c: Customer) => (c._id === customer_id) ? c.fullname : "") as Customer;
-            const fullname = "" as string;
-            return <Tooltip label={`Ver las ventas de ${(fullname.length > 0) ? fullname.split(" ")[0] : ""}`} 
+            const customer = customers.find((c: Customer) => ((customer_id) && c._id === customer_id) ? c.fullname : "") as Customer;
+            return (customer) ? <Tooltip label={`Ver las ventas de ${(customer.fullname.length > 0) ? customer.fullname.split(" ")[0] : ""}`} 
                             bg='gray.300' 
                             color='black' 
                             hasArrow>
               <Link as={ReactRouterLink} color='teal.500' to={`/pedidos/cliente/${customer_id}`} textDecoration={"none"}>
-                {(fullname && fullname.length > 0) ? fullname : ""}
+                {customer.fullname}
               </Link>
-            </Tooltip>
+            </Tooltip> : <Skeleton height='20px' />
           }, headerStyle, cellStyle},
           { title: 'Productos', field: 'products', type: 'numeric',render: ({products}: Order) => {
             return <Popover>
@@ -160,6 +165,7 @@ export const OrdersTable = (): JSX.Element => {
                   <MenuList>
                     <MenuItem
                       icon={<FiEdit />} 
+                      onClick={() => handleEditOrder(rowData._id!)}
                       >Editar
                     </MenuItem>
                     <MenuItem
@@ -173,7 +179,13 @@ export const OrdersTable = (): JSX.Element => {
           }, headerStyle, cellStyle},
           ]}
           data={data.orders}
-      /> 
+      /> : <Flex w="100%" alignItems={"center"} justifyContent={"center"} minH={"150px"}>
+        <Spinner thickness='4px'
+                 speed='0.65s'
+                 emptyColor='gray.200'
+                 color='#b43137'
+                 size='xl'/>
+      </Flex>
     }
   </>
 }
