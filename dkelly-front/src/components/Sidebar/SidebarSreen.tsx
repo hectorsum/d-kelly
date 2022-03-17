@@ -139,7 +139,7 @@ const NavItem = ({ path, icon, children, ...rest }: NavItemProps) => {
         borderRadius="md"
         role="group"
         cursor="pointer"
-        transition={"background 0.3s ease"}
+        transition={"background 0.5ms ease-in-out"}
         _hover={{
           bg: '#b43137',
           color: 'white',
