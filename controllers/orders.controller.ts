@@ -81,12 +81,13 @@ export class OrderController {
   }
   async update (req: Request, res: Response){
     try {
-      const {products} = req.body;
+      const {products, hasPaid} = req.body;
       let total: number;
       let arrayPromises: number[];
       let arrayPrices: number[];
       const oldOrder = await Order.findById({_id: req.params.id}) as IOrder;
       const errors = [] as Array<{msg: string}>;
+      if (!products) return res.status(500).send("No hay productos");
       if (!oldOrder) return res.status(500).send("Orden de pedido no existe");
       
       //* Validating stock availability
@@ -108,8 +109,8 @@ export class OrderController {
 
       //* Getting the total amount
       arrayPromises = products.map(async(item: IProductCart) => {
-        const {price} = await Product.findOne({_id:item._id}) as IProduct;
-        let amount = price * item.qty;
+        const data = await Product.findOne({_id:item._id.toString()}) as IProduct;
+        let amount = data.price * item.qty;
         return amount;
       })
 
@@ -152,7 +153,8 @@ export class OrderController {
 
       const order = await Order.findByIdAndUpdate(req.params.id,{
         products,
-        total
+        total,
+        hasPaid
       }, {new: true});
       res.json({
         ok: true,
