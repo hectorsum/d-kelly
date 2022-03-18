@@ -25,6 +25,12 @@ const reducer = (state: CartState = initialState, action: CartAction) => {
         cart: inCart ? [...state.cart] : [...state.cart, action.payload],
         loading: false,
       };
+    case CartType.LOAD_ALL_PRODUCTS:
+      return {
+        ...state,
+        cart: action.payload,
+        loading: false
+      }
     case CartType.REMOVE_ALL_PRODUCTS:
       return {
         ...state,

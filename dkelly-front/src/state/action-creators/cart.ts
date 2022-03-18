@@ -24,24 +24,12 @@ export const addProductCart = (product: Product) => (dispatch: Dispatch<CartActi
   dispatch(setAlert("Producto agregado", "success"));
 };
 
-//* Get cart
-// export const getCart = () => async (dispatch) => {
-//   // dispatch({ type: CLEAR_CART });
-//   // try {
-//   // const res = await axios.get("/api/product");
-//   // const cart = JSON.parse(localStorage.getItem("cart")) || [];
-//   // console.log("CartListAction:", cart);
-//   // dispatch({
-//   //   type: GET_CART,
-//   //   payload: cart,
-//   // });
-//   // } catch (err) {
-//   // dispatch({
-//   //   type: CART_ERROR,
-//   //   payload: { msg: err.response.statusText, status: err.response.status }
-//   // })
-//   // }
-// };
+export const loadAllProducts = (products: Product[]) => (dispatch: Dispatch<CartAction | Action | any>) => {
+  dispatch({
+    type: CartType.LOAD_ALL_PRODUCTS,
+    payload: products,
+  });
+}
 
 export const removeAllProducts = () => (dispatch: Dispatch<CartAction | Action | any>) => {
   dispatch({

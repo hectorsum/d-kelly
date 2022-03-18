@@ -21,6 +21,11 @@ interface RemoveAllAction {
   payload: string
 }
 
+interface LoadAllProductsAction {
+  type: CartType.LOAD_ALL_PRODUCTS,
+  payload: Product[]
+}
+
 interface RemoveProductAction {
   type: CartType.REMOVE_PRODUCT_CART,
   payload: string
@@ -53,7 +58,7 @@ interface CarErrorAction {
   payload: Error
 }
 
-export type CartAction = AddProductAction | 
+export type CartAction = AddProductAction | LoadAllProductsAction |
                          AddQtyProductAction | 
                          RemoveProductAction | 
                          RemoveAllAction |
