@@ -112,7 +112,7 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
                   name="customer"
                   placeholder="Buscar por Nombre"
                   onChange={onChange}
-                  onClick={() => setIsInputChanging(true)}
+                  onClick={() => setIsInputChanging(!isInputChanging)}
                   value={formData.customer}
                   autoComplete='off'
                 />
@@ -141,18 +141,24 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
           <FormControl isRequired mb={4} position="relative">
             <FormLabel>Productos</FormLabel>
             <InputGroup>
+              <InputLeftElement
+                  pointerEvents='none'
+                  color='gray.300'
+                  fontSize='1.2em'
+                  children={<AiOutlineSearch color='gray.300' />}
+                />
               <Input 
                 type="text"
                 name="product"
                 placeholder="Buscar Producto"
                 onChange={onChange}
                 autoComplete='off'
-                onClick={() => setIsActive(true)}
+                onClick={() => setIsActive(!isActive)}
                 mr={1}
               />
-              <IconButton aria-label='Search Product' 
+              {/* <IconButton aria-label='Search Product' 
                           icon={<ArrowUpDownIcon />} 
-                          onClick={() => setIsActive(!isActive)}/>
+                          onClick={() => setIsActive(!isActive)}/> */}
             </InputGroup>
             {
               (cart.length > 0) && <Flex flexWrap={"wrap"} mt={2}>

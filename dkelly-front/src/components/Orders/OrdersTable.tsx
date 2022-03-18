@@ -8,7 +8,7 @@ import { FaIceCream, FaShoppingCart } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../state';
 import { getCustomers } from '../../state/action-creators/customer';
-import { getOrders } from '../../state/action-creators/order';
+import { getOrders, getSingleOrder } from '../../state/action-creators/order';
 import { Customer, CustomerState } from '../../state/actions/customer';
 import { Order, OrderState } from '../../state/actions/order';
 import { localizationTable, optionsTable, headerStyle, cellStyle } from '../../utils/Table';
@@ -127,13 +127,8 @@ export const OrdersTable = (): JSX.Element => {
                           </Badge>
                         </Stack>
                       </Box>
-
-                      {/* <Button colorScheme="blue">Button</Button> */}
                     </PopoverBody>
                   ))}
-                  {/* <PopoverFooter>
-                        This is the footer
-                      </PopoverFooter> */}
                 </PopoverContent>
               </Portal>
             </Popover>

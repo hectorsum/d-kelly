@@ -32,7 +32,7 @@ export const OrderScreen = () => {
     handleClose();
     dispatch(confirmPayment(idSelected!))
   }
-  console.log("isEditOpen: ",isEditOpen)
+  // console.log("isEditOpen: ",isEditOpen)
   return (
     <Container maxW='container.lg' padding="5" >
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={5}>

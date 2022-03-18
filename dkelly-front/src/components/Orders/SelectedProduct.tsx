@@ -23,7 +23,6 @@ export const SelectedProduct: FC<IProduct> = ({product:{_id,name,qty}}): JSX.Ele
         variant='solid'
         bgColor={'blue.100'}
         color={"#000"}
-        fontWeight={"bold"}
       >
         <Badge variant={"subtle"} 
                rounded={"full"}

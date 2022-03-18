@@ -7,7 +7,7 @@ import { Customer } from '../../state/actions/customer'
 
 interface ICustomer {
   customer: Customer,
-  setIsInputChanging: Dispatch<React.SetStateAction<boolean>>,
+  setIsInputChanging?: Dispatch<React.SetStateAction<boolean>>,
 }
 
 export const CustomerItem: FC<ICustomer> = ({customer, setIsInputChanging}): JSX.Element => {
@@ -16,18 +16,20 @@ export const CustomerItem: FC<ICustomer> = ({customer, setIsInputChanging}): JSX
     e.stopPropagation();
     console.log("id: ",id)
     dispatch(getSingleCustomer(id));
-    setIsInputChanging(false);
+    if(setIsInputChanging){
+      setIsInputChanging(false);
+    }
   }
   return (
     <Flex w={"100%"}
           flexDir="row" 
           alignItems="center" 
-          borderBottom={"1px solid #ccc"} 
           borderRadius={5} p={3}
           justifyContent={"space-between"}
           transition={"all 0.2s ease-out"}
+          style={(!setIsInputChanging) ? {border:"1px solid #ccc"} : {borderBottom:"1px solid #ccc"}}
           onClick={(e) => {
-            selectCustomer(e, customer._id)
+            (setIsInputChanging) && selectCustomer(e, customer._id)
           }}
           _hover={{
             background:"blue.50",
