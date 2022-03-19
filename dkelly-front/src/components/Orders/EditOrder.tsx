@@ -159,10 +159,10 @@ export const EditOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}): 
                 </Box>
               }
             </FormControl>
-            <FormControl mb={4}>
+            {/* <FormControl mb={4}>
               <FormLabel>Notas</FormLabel>
               <Textarea onChange={onChange} name={"notes"} value={formData.notes} resize={"none"}/>
-            </FormControl>
+            </FormControl> */}
             <FormControl isRequired>
               <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Spacer/>

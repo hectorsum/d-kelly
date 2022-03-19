@@ -1,6 +1,7 @@
 import { Box, Button, Container, Icon, Text, useDisclosure } from '@chakra-ui/react'
 import React, { useRef } from 'react'
 import { FiPlus } from 'react-icons/fi'
+import { AddProduct } from './AddProduct';
 import { ProductsTable } from './ProductsTable';
 
 export const ProductScreen = (): JSX.Element => {
@@ -23,9 +24,9 @@ export const ProductScreen = (): JSX.Element => {
         </Button>
       </Box>
       <ProductsTable/>
-      {/* {
-        (isOpen) && <AddCustomer initialRef={initialRef} finalRef={finalRef} isOpen={isOpen} onClose={onClose}/>
-      } */}
+      {
+        (isOpen) && <AddProduct initialRef={initialRef} finalRef={finalRef} isOpen={isOpen} onClose={onClose}/>
+      }
     </Container>
   )
 }
