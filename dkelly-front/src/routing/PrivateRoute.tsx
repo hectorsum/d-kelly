@@ -9,7 +9,7 @@ const PrivateRoute = () => {
   const data: AuthState = useSelector((state: RootState) => state.auth);
   const {isAuthenticated, loading} = data;
   console.log("isAuthenticated: ",isAuthenticated)
-  return isAuthenticated && !loading ? <Outlet /> : <Navigate to="/" />;
+  return (isAuthenticated && !loading) && <Outlet />;
 
 }
 

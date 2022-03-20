@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import {Link as RouterLink} from 'react-router-dom'
+import {Link as RouterLink, useNavigate} from 'react-router-dom'
 import {
   IconButton,
   Avatar,
@@ -166,8 +166,10 @@ interface MobileProps extends FlexProps {
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {  
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const handleLogout = () => {
     dispatch(logout());
+    navigate("/");
   }
   return (
     <Flex
