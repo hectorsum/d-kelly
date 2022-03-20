@@ -7,6 +7,7 @@ import { getProducts } from '../../state/action-creators/products';
 import { Product, ProductState } from '../../state/actions/product';
 import MaterialTable from '@material-table/core'
 import { localizationTable, optionsTable, headerStyle, cellStyle } from '../../utils/Table';
+import { setIsDeleting, setIsEditing } from '../../state/action-creators/popup';
 
 export const ActionsButton = forwardRef(({ label, ...rest }, ref) => {
   return (
@@ -31,11 +32,22 @@ export const ActionsButton = forwardRef(({ label, ...rest }, ref) => {
 export const ProductsTable: React.FC = (): JSX.Element => {
   const data: ProductState = useSelector((state: RootState) => state.products);
   const dispatch = useDispatch();
+  const handleEdit = (idSelected: string) => {
+    dispatch(setIsEditing({
+      idSelected,
+      isOpen: true
+    }))
+  }
+  const handleDelete = (idSelected: string) => {
+    dispatch(setIsDeleting({
+      idSelected,
+      isOpen: true
+    }))
+  }
   useEffect(() => {
     const retrieveProducts = () => dispatch(getProducts());
     retrieveProducts();
   },[dispatch])
-  console.log(data.products);
   return <>
     {
       (!data.loading) && <MaterialTable
@@ -75,10 +87,12 @@ export const ProductsTable: React.FC = (): JSX.Element => {
                   <MenuList>
                     <MenuItem
                       icon={<FiEdit />} 
+                      onClick={() => handleEdit(rowData._id!)}
                       >Editar
                     </MenuItem>
                     <MenuItem
                       icon={<FiXCircle />} 
+                      onClick={() => handleDelete(rowData._id!)}
                     >
                       Eliminar
                     </MenuItem>
