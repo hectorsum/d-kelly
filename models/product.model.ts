@@ -7,7 +7,7 @@ const ProductSchema = new Schema({
   },
   qty:{
     type: Number,
-    required: [true, 'quantity is required']
+    required: false
   },
   price:{
     type: Number,
