@@ -21,7 +21,7 @@ export class ProductController {
   }
   async update(req: Request, res: Response) {
     try {
-      const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body);
+      const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {new: true});
       res.json({
         ok: true,
         msg:"Producto actualizado satisfactoriamente!",
