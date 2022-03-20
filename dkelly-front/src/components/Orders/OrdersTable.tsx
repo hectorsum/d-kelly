@@ -40,7 +40,7 @@ export const ActionsButton = forwardRef(({ label, ...rest }, ref) => {
 });
 export const OrdersTable = (): JSX.Element => {
   const data = useSelector((state: RootState) => state.orders) as OrderState;
-  const {customers} = useSelector((state: RootState) => state.customers) as CustomerState;
+  const {customers, loading:loadingCustomers} = useSelector((state: RootState) => state.customers) as CustomerState;
   const dispatch = useDispatch();
   useEffect(() => {
     const retrieveOrders = () => dispatch(getOrders());
@@ -59,7 +59,7 @@ export const OrdersTable = (): JSX.Element => {
   }
   return <>
     {
-      (!data.loading && customers) ? <MaterialTable
+      (!data.loading && customers && !loadingCustomers) ? <MaterialTable
           options={optionsTable}
           localization={localizationTable}
           columns={[
