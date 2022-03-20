@@ -8,14 +8,9 @@ import { CartState } from '../../state/actions/cart';
 import { Product } from '../../state/actions/product';
 
 interface IProduct {
-  product: {
-    _id: string,
-    name: string,
-    qty: number,
-    price: number,
-  }
+  product: Product
 }
-export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}}) => {
+export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price,type}}) => {
   const [isSelected, setIsSelected] = useState(false);
   const {cart}: CartState = useSelector((state: RootState) => state.cart);
   const [counter, setCounter] = useState(1)
@@ -26,24 +21,25 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}})
         _id,
         name,
         qty:1,
-        price
+        price,
+        type
       }))
       setIsSelected(true)
     }else{
-      dispatch(deleteProductCart(p._id))
+      dispatch(deleteProductCart(p._id!))
       setIsSelected(false)
     }
   }
   const decreaseQty = (): void => {
     setCounter(() => counter <= 0 ? 0 : counter - 1);
     if (counter > 0) {
-      dispatch(removeQtyProductCart(_id));
+      dispatch(removeQtyProductCart(_id!));
     }
   }
   const increaseQty = (): void => {
     setCounter(() => counter === qty ? qty : counter + 1)
     if(counter < qty){
-      dispatch(addQtyProductCart(_id))
+      dispatch(addQtyProductCart(_id!))
     }
     
   }
@@ -62,7 +58,7 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}})
   },[_id, cart, isProductInCart])
   useEffect(() => {
     if (counter === 0) {
-      dispatch(deleteProductCart(_id))
+      dispatch(deleteProductCart(_id!))
       setIsSelected(false);
     }
   },[dispatch, counter, _id])
@@ -89,7 +85,7 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}})
             <Text fontSize="sm">{qty}</Text>
           </Badge>
         </Stack>
-        <Text onClick={() => addToCart({_id,name,qty,price})}
+        <Text onClick={() => addToCart({_id,name,qty,price, type})}
               _hover={{
                 cursor:"pointer",
                 textDecoration:"underline",
@@ -129,7 +125,7 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}})
             isReadOnly
             variant="unstyled"
             onChange={() => {
-              updateQty(_id, counter)
+              updateQty(_id!, counter)
             }}
           />
           <InputRightElement>

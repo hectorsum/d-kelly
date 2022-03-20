@@ -183,7 +183,7 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
                                 boxShadow={"0 0 0 1px rgba(0,0,0,.1)"}>
                 {
                   filteredProducts.map((p: Product) => (
-                    <ProductItem key={p._id} product={p}/>
+                    <ProductItem key={p._id!} product={p}/>
                   ))
                 }
               </Box>
