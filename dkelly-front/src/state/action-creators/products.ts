@@ -3,6 +3,7 @@ import { Dispatch } from "react";
 import { ProductType } from "../action-types/products";
 import { Action } from "../actions";
 import { Product, ProductAction } from "../actions/product";
+import { setAlert } from "./alert";
 
 interface ProductResponse {
   ok: boolean,
@@ -19,7 +20,7 @@ export const getProducts = () => async(dispatch: Dispatch<ProductAction | Action
     type: ProductType.CLEAR_PRODUCTS,
   })
   try {
-    const {data: {data: productResponse}} = await axios.get("http://localhost:8000/api/product", config);
+    const {data: {data: productResponse}} = await axios.get("/api/product", config);
     dispatch({
       type: ProductType.RETRIEVE_ALL_PRODUCTS,
       payload: productResponse
@@ -28,7 +29,7 @@ export const getProducts = () => async(dispatch: Dispatch<ProductAction | Action
     let error = err as AxiosError;
     if(error.response) {
       dispatch({
-        type: ProductType.ERROR,
+        type: ProductType.ERROR_PRODUCT,
         payload: {
           msg: error.response.data,
           status: error.response.status
@@ -40,7 +41,7 @@ export const getProducts = () => async(dispatch: Dispatch<ProductAction | Action
 
 export const getSingleProduct = (id: string) => async (dispatch: Dispatch<ProductAction | Action>) => {
   try {
-    const {data: {data: productResponse}} = await axios.get(`http://localhost:8000/api/product/${id}`, config);
+    const {data: {data: productResponse}} = await axios.get(`/api/product/${id}`, config);
     dispatch({
       type: ProductType.RETRIEVE_SINGLE_PRODUCT,
       payload: productResponse
@@ -49,7 +50,7 @@ export const getSingleProduct = (id: string) => async (dispatch: Dispatch<Produc
     let error = err as AxiosError;
     if (error.response) {
       dispatch({
-        type: ProductType.ERROR,
+        type: ProductType.ERROR_PRODUCT,
         payload: {
           msg: error.response.data,
           status: error.response.status
@@ -59,20 +60,20 @@ export const getSingleProduct = (id: string) => async (dispatch: Dispatch<Produc
   }
 }
 
-export const addProduct = (formData: Product) => async(dispatch: Dispatch<ProductAction | Action>) => {
+export const addProduct = (formData: Product) => async(dispatch: Dispatch<ProductAction | Action | any>) => {
   try {
-    const {data:{data: productResponse}} = await axios.post('http://localhost:8000/api/product',formData ,config);
+    const {data:{data: productResponse}} = await axios.post('/api/product',formData ,config);
     console.log("res: ",productResponse);
     dispatch({
-      type: ProductType.ADD,
+      type: ProductType.ADD_PRODUCT,
       payload: productResponse
     })
-
+    dispatch(setAlert("Producto agregado", "success"));
   } catch (err) {
     let error = err as AxiosError;
     if(error.response) {
       dispatch({
-        type: ProductType.ERROR,
+        type: ProductType.ERROR_PRODUCT,
         payload: {
           msg: error.response.data,
           status: error.response.status
@@ -82,19 +83,19 @@ export const addProduct = (formData: Product) => async(dispatch: Dispatch<Produc
   }
 }
 
-export const updateProduct = (id: string, formData: Product) => async(dispatch: Dispatch<ProductAction | Action>) => {
+export const updateProduct = (id: string, formData: Product) => async(dispatch: Dispatch<ProductAction | Action | any>) => {
   try {
-    let {data:{data: productResponse}} = await axios.put(`http://localhost:8000/api/product/${id}`,formData ,config);
+    let {data:{data: productResponse}} = await axios.put(`/api/product/${id}`,formData ,config);
     dispatch({
-      type: ProductType.EDIT,
+      type: ProductType.EDIT_PRODUCT,
       payload: productResponse,
     })
-    console.log(productResponse)
+    dispatch(setAlert("Producto actualizado", "warning"));
   } catch (err) {
     let error = err as AxiosError;
     if (error.response){
       dispatch({
-        type: ProductType.ERROR,
+        type: ProductType.ERROR_PRODUCT,
         payload: {
           msg: error.response.data,
           status: error.response.status
@@ -104,18 +105,19 @@ export const updateProduct = (id: string, formData: Product) => async(dispatch: 
   }
 }
 
-export const deleteProduct = (id: string) => async(dispatch: Dispatch<ProductAction | Action>) => {
+export const deleteProduct = (id: string) => async(dispatch: Dispatch<ProductAction | Action | any>) => {
   try {
-    await axios.delete(`http://localhost:8000/api/product/${id}`,config);
+    await axios.delete(`/api/product/${id}`,config);
     dispatch({
-      type:ProductType.DELETE,
+      type:ProductType.DELETE_PRODUCT,
       payload: id
     });
+    dispatch(setAlert("Producto eliminado", "error"));
   } catch (err) {
     let error = err as AxiosError;
     if(error.response) {
       dispatch({
-        type: ProductType.ERROR,
+        type: ProductType.ERROR_PRODUCT,
         payload: {
           msg: error.response.data,
           status: error.response.status

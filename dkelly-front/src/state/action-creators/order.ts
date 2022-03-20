@@ -90,7 +90,7 @@ export const updateOrder = (id: string, formData: Order) => async(dispatch: Disp
       type: OrderType.EDIT_ORDER,
       payload: orderResponse,
     })
-    dispatch(setAlert("Orden Actualizada Satisfactoriamente", "success"));
+    dispatch(setAlert("Orden Actualizada Satisfactoriamente", "warning"));
   } catch (err) {
     let error = err as AxiosError;
     if (error.response){
