@@ -153,6 +153,7 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
                 placeholder="Buscar Producto"
                 onChange={onChange}
                 autoComplete='off'
+                onInput={() => setIsActive(true)}
                 onClick={() => setIsActive(!isActive)}
                 mr={1}
               />

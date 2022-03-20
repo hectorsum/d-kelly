@@ -25,7 +25,7 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}})
       dispatch(addProductCart({
         _id,
         name,
-        qty:counter,
+        qty:1,
         price
       }))
       setIsSelected(true)
@@ -35,7 +35,7 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}})
     }
   }
   const decreaseQty = (): void => {
-    setCounter(() => counter <= 1 ? 1 : counter - 1);
+    setCounter(() => counter <= 0 ? 0 : counter - 1);
     if (counter > 0) {
       dispatch(removeQtyProductCart(_id));
     }
@@ -59,7 +59,14 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price}})
     }else{
       setIsSelected(false);
     }
-  },[_id, cart])
+  },[_id, cart, isProductInCart])
+  useEffect(() => {
+    if (counter === 0) {
+      dispatch(deleteProductCart(_id))
+      setIsSelected(false);
+    }
+  },[dispatch, counter, _id])
+  console.log("counter: ",counter);
   return (
     <Flex borderBottom={"1px solid #ccc"} 
           justifyContent={"space-between"} 
