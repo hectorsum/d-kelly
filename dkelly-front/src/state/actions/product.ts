@@ -2,10 +2,11 @@ import { ProductType } from '../action-types/products';
 import {Error} from './index'
 
 export interface Product {
-  _id: string,
+  _id?: string,
   name: string,
   qty: number,
   price: number,
+  type: string,
 }
 
 export interface ProductState {
@@ -16,7 +17,7 @@ export interface ProductState {
 }
 
 interface CreateAction {
-  type: ProductType.ADD,
+  type: ProductType.ADD_PRODUCT,
   payload: Product
 }
 
@@ -30,11 +31,11 @@ interface ClearProducts {
 }
 
 interface EditProduct {
-  type: ProductType.EDIT,
+  type: ProductType.EDIT_PRODUCT,
   payload: Product
 }
 interface DeleteProduct {
-  type: ProductType.DELETE,
+  type: ProductType.DELETE_PRODUCT,
   payload: string
 }
 interface RetrieveSingleProduct {
@@ -43,7 +44,7 @@ interface RetrieveSingleProduct {
 }
 
 interface ErrorAction {
-  type: ProductType.ERROR,
+  type: ProductType.ERROR_PRODUCT,
   payload: Error
 }
 export type ProductAction = RetrieveAction | ClearProducts |

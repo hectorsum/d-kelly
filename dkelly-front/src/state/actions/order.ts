@@ -1,10 +1,10 @@
 import { OrderType } from "../action-types/order";
 import {Error} from './index'
-
+import {Product} from './product';
 export interface Order {
   _id?: string,
   customer: string,
-  products: Array<{_id: string, name: string, qty: number, price: number}>,
+  products: Product[],
   notes: string,
   total?: number,
   date?: Date,

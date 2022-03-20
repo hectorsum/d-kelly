@@ -24,26 +24,26 @@ const reducer = (state: ProductState = initialState, action: ProductAction) => {
         loading:false,
         error:null
       }
-    case ProductType.ADD:
+    case ProductType.ADD_PRODUCT:
       return {
         ...state,
         products: [action.payload, ...state.products],
         loading: false,
         error: null
       }
-    case ProductType.EDIT:
+    case ProductType.EDIT_PRODUCT:
       return {
         ...state,
         loading: false,
         products: state.products.map(product => product._id === action.payload._id ? product = action.payload : product)
       }
-    case ProductType.DELETE:
+    case ProductType.DELETE_PRODUCT:
       return {
         ...state,
         loading: false,
         products: state.products.filter(product => product._id !== action.payload)
       }
-    case ProductType.ERROR:
+    case ProductType.ERROR_PRODUCT:
       return {
         ...state,
         error: action.payload,
