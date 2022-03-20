@@ -15,6 +15,8 @@ import { localizationTable, optionsTable, headerStyle, cellStyle } from '../../u
 import {Link as ReactRouterLink} from 'react-router-dom';
 import { WarningIcon, WarningTwoIcon } from '@chakra-ui/icons';
 import { setIsConfirming, setIsEditing } from '../../state/action-creators/popup';
+import { BiBox } from 'react-icons/bi';
+import { Product } from '../../state/actions/product';
 
 export const ActionsButton = forwardRef(({ label, ...rest }, ref) => {
   return (
@@ -91,7 +93,7 @@ export const OrdersTable = (): JSX.Element => {
                     Productos
                   </PopoverHeader>
                   <PopoverCloseButton />
-                  {(products) && products.map((product) => (
+                  {(!data.loading && products) && products.map((product: Product) => (
                     <PopoverBody key={product._id}>
                       <Box
                         display="flex"
@@ -104,9 +106,11 @@ export const OrdersTable = (): JSX.Element => {
                           <Badge
                             rounded="full"
                             px="2"
-                            display={"flex"} justifyContent={"cemter"} alignItems={"center"}
+                            display={"flex"} justifyContent={"center"} alignItems={"center"}
                           >
-                            <FaIceCream/>
+                            {
+                              (product.type === "icecream") ? <FaIceCream/> : <BiBox/> 
+                            }
                           </Badge>
                           <Text
                             fontSize={["sm", "md"]}

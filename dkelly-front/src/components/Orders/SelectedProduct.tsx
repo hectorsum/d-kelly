@@ -12,7 +12,7 @@ function capitalizeFirstLetter(string: string): string {
 export const SelectedProduct: FC<IProduct> = ({product:{_id,name,qty}}): JSX.Element => {
   const dispatch = useDispatch();
   const handleRemoveFromCart = () => {
-    dispatch(deleteProductCart(_id));
+    dispatch(deleteProductCart(_id!));
   }
   return (
     <HStack spacing={4} mr={1} mb={1} w="fit-content">

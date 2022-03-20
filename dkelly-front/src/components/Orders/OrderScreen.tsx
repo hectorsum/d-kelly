@@ -6,6 +6,7 @@ import { RootState } from "../../state";
 import { confirmPayment } from "../../state/action-creators/order";
 import { setIsConfirming } from "../../state/action-creators/popup";
 import { PopupAction, PopupState } from "../../state/actions/popup";
+import { CustomAlert, ModalTypes } from "../../utils/CustomAlert";
 import { AddOrder } from "./AddOrder";
 import { EditOrder } from "./EditOrder";
 import {OrdersTable} from "./OrdersTable";
@@ -13,26 +14,17 @@ import {OrdersTable} from "./OrdersTable";
 export const OrderScreen = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen:isOpenEdit, onOpen: onOpenEdit, onClose:onCloseEdit } = useDisclosure();
+  const { isOpen:isOpenDelete, onOpen: onOpenDelete, onClose:onCloseDelete } = useDisclosure();
+  //Add
   const initialRef = useRef<HTMLInputElement>(null);
   const finalRef = useRef<HTMLHeadingElement>(null);
+  //Edit
   const editInitRef = useRef<HTMLInputElement>(null);
   const editFinalRef = useRef<HTMLHeadingElement>(null);
-  const { isConfirming:{isOpen: isOpenConfirm, idSelected}, 
-          isEditing:{isOpen: isEditOpen} }: PopupState = useSelector((state: RootState) => state.popup);
-
-  const cancelRef = useRef<any>();
-  const dispatch = useDispatch();
-  const handleClose = () => {
-    dispatch(setIsConfirming({
-      isOpen: false,
-      idSelected: null
-    }))
-  }
-  const handleConfirm = () => {
-    handleClose();
-    dispatch(confirmPayment(idSelected!))
-  }
-  // console.log("isEditOpen: ",isEditOpen)
+  //Delete
+  const deleteInitRef = useRef<HTMLInputElement>(null);
+  const deleteFinalRef = useRef<HTMLButtonElement>(null);
+  const { isConfirming, isEditing}: PopupState = useSelector((state: RootState) => state.popup);
   return (
     <Container maxW='container.lg' padding="5" >
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={5}>
@@ -50,38 +42,25 @@ export const OrderScreen = () => {
       </Box>
       <OrdersTable/>
       {
-        (isOpen) && <AddOrder initialRef={initialRef} finalRef={finalRef} isOpen={isOpen} onClose={onClose}/>
+        (isOpen) && <AddOrder initialRef={initialRef} 
+                              finalRef={finalRef} 
+                              isOpen={isOpen} 
+                              onClose={onClose}/>
       }
       {
-        (isEditOpen) && <EditOrder initialRef={editInitRef} finalRef={editFinalRef} isOpen={isEditOpen} onClose={onCloseEdit}/>
+        (isEditing.isOpen) && <EditOrder initialRef={editInitRef} 
+                                   finalRef={editFinalRef} 
+                                   isOpen={isEditing.isOpen} 
+                                   onClose={onCloseEdit}/>
       }
       {
-        (isOpenConfirm) && <AlertDialog
-          isOpen={isOpenConfirm}
-          leastDestructiveRef={cancelRef}
-          onClose={handleClose}
-          motionPreset='slideInBottom'
-        >
-          <AlertDialogOverlay/>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Confirmar Pago
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              El cliente ha cancelado el total de su pago
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={handleClose}>
-                Cancelar
-              </Button>
-              <Button colorScheme='green' ml={3} onClick={handleConfirm}>
-                Confirmar
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        (isConfirming.isOpen) && <CustomAlert isOpenDelete={true} 
+                                        onOpenDelete={onOpenDelete} 
+                                        onCloseDelete={onCloseDelete}
+                                        deleteInitRef={deleteInitRef}
+                                        deleteFinalRef={deleteFinalRef}
+                                        idSelected={isConfirming.idSelected!}
+                                        alertType={ModalTypes.CONFIRMATION}/>
       }
     </Container>
   )
