@@ -3,6 +3,7 @@ import { Dispatch } from "react";
 import { CustomerType } from "../action-types/customer";
 import { Action } from "../actions";
 import { Customer, CustomerAction } from "../actions/customer";
+import { setAlert } from "./alert";
 
 interface CustomerResponse {
   ok: boolean,
@@ -59,7 +60,7 @@ export const getSingleCustomer = (id: string) => async (dispatch: Dispatch<Custo
   }
 }
 
-export const addCustomer = (formData: Customer) => async(dispatch: Dispatch<CustomerAction | Action>) => {
+export const addCustomer = (formData: Customer) => async(dispatch: Dispatch<CustomerAction | Action | any>) => {
   try {
     console.log("formData: ",formData);
     const {data:{data: customerResponse}} = await axios.post('/api/customer',formData ,config);
@@ -67,7 +68,7 @@ export const addCustomer = (formData: Customer) => async(dispatch: Dispatch<Cust
       type: CustomerType.ADD,
       payload: customerResponse
     })
-
+    dispatch(setAlert("Cliente agregado", "success"));
   } catch (err) {
     let error = err as AxiosError;
     if(error.response) {
@@ -82,13 +83,14 @@ export const addCustomer = (formData: Customer) => async(dispatch: Dispatch<Cust
   }
 }
 
-export const updateCustomer = (id: string, formData: Customer) => async(dispatch: Dispatch<CustomerAction | Action>) => {
+export const updateCustomer = (id: string, formData: Customer) => async(dispatch: Dispatch<CustomerAction | Action | any>) => {
   try {
     let {data:{data: customerResponse}} = await axios.put(`http://localhost:8000/api/customer/${id}`,formData ,config);
     dispatch({
       type: CustomerType.EDIT,
       payload: customerResponse,
     })
+    dispatch(setAlert("Cliente actualizado", "warning"));
   } catch (err) {
     let error = err as AxiosError;
     if (error.response){
@@ -103,13 +105,14 @@ export const updateCustomer = (id: string, formData: Customer) => async(dispatch
   }
 }
 
-export const deleteCustomer = (id: string) => async(dispatch: Dispatch<CustomerAction | Action>) => {
+export const deleteCustomer = (id: string) => async(dispatch: Dispatch<CustomerAction | Action | any>) => {
   try {
     await axios.delete(`/api/customer/${id}`,config);
     dispatch({
       type:CustomerType.DELETE,
       payload: id
     });
+    dispatch(setAlert("Cliente actualizado", "error"));
   } catch (err) {
     let error = err as AxiosError;
     if(error.response) {
