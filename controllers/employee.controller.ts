@@ -49,7 +49,7 @@ export class EmployeeController {
   }
   async update(req: Request, res: Response) {
     try {
-      const updatedEmployee = await Employee.findByIdAndUpdate(req.params.id, req.body);
+      const updatedEmployee = await Employee.findByIdAndUpdate(req.params.id, req.body, {new: true});
       res.json({
         ok: true,
         msg:"Empleado actualizado satisfactoriamente!",

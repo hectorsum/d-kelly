@@ -21,7 +21,7 @@ export class CustomerController {
   }
   async update(req: Request, res: Response) {
     try {
-      const updatedCustomer = await Customer.findByIdAndUpdate(req.params.id, req.body);
+      const updatedCustomer = await Customer.findByIdAndUpdate(req.params.id, req.body, {new: true});
       res.json({
         ok: true,
         msg:"Cliente actualizado satisfactoriamente!",

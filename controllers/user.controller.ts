@@ -27,7 +27,7 @@ export class UserController {
   async update(req: Request, res: Response){
     try {
       const { id } = req.params;
-      const updatedUser = await User.findByIdAndUpdate(id, req.body);
+      const updatedUser = await User.findByIdAndUpdate(id, req.body, {new: true});
       return res.json({
         ok: true,
         msg:"Usuario actualizado satisfactoriamente!",

@@ -52,7 +52,7 @@ export class ProductController {
   }
   async getAll(req: Request, res: Response) {
     try {
-      const products = await Product.find();
+      const products = await Product.find().sort({date: -1}).exec();
       res.json({
         ok: true,
         data: products
