@@ -2,7 +2,7 @@ import { CustomerType } from "../action-types/customer";
 import {Error} from './index'
 
 export interface Customer {
-  _id: string,
+  _id?: string,
   fullname: string,
   cellphone: string,
   company: string,
