@@ -15,13 +15,8 @@ export const ProductScreen = (): JSX.Element => {
   const { isOpen:isOpenDelete, onOpen: onOpenDelete, onClose:onCloseDelete } = useDisclosure();
   //Add
   const initialRef = useRef<HTMLInputElement>(null);
-  const finalRef = useRef<HTMLHeadingElement>(null);
-  //Edit
-  const editInitRef = useRef<HTMLInputElement>(null);
-  const editFinalRef = useRef<HTMLHeadingElement>(null);
-  //Delete
-  const deleteInitRef = useRef<HTMLInputElement>(null);
-  const deleteFinalRef = useRef<HTMLButtonElement>(null);
+  const finalRef = useRef<any>(null);
+
   const { isEditing, isDeleting }: PopupState = useSelector((state: RootState) => state.popup);
   return (
     <Container maxW='container.lg' padding="5">
@@ -34,11 +29,14 @@ export const ProductScreen = (): JSX.Element => {
             Productos
           </Text>
         </Box>
-        <Button colorScheme="green" onClick={onOpenAdd} leftIcon={<Icon as={FiPlus} h={[4, 6]} w={[4, 6]} alignSelf={"center"} />}>
+        <Button colorScheme="green" 
+                onClick={onOpenAdd} 
+                leftIcon={<Icon as={FiPlus} h={[4, 6]} w={[4, 6]} alignSelf={"center"} />}>
           Agregar Producto
         </Button>
       </Box>
-      <ProductsTable/>
+      <ProductsTable onOpenEdit={onOpenEdit} 
+                     onOpenDelete={onOpenDelete}/>
       {
         (isOpenAdd) && <AddProduct initialRef={initialRef} 
                                    finalRef={finalRef} 
@@ -46,19 +44,18 @@ export const ProductScreen = (): JSX.Element => {
                                    onClose={onCloseAdd}/>
       }
       {
-        (isEditing.isOpen) && <EditProduct initialRef={editInitRef} 
-                                           finalRef={editFinalRef} 
-                                           isOpen={isEditing.isOpen} 
-                                           onClose={onCloseEdit}/>
+        (isOpenEdit) && <EditProduct initialRef={initialRef} 
+                                     finalRef={finalRef} 
+                                     isOpen={isOpenEdit} 
+                                     onClose={onCloseEdit}/>
       }
       {
-        (isDeleting.isOpen) && <CustomAlert isOpenDelete={isDeleting.isOpen} 
-                                            onOpenDelete={onOpenDelete} 
-                                            onCloseDelete={onCloseDelete}
-                                            deleteInitRef={deleteInitRef}
-                                            deleteFinalRef={deleteFinalRef}
-                                            idSelected={isDeleting.idSelected!}
-                                            alertType={ModalTypes.PRODUCT}/>
+        (isOpenDelete) && <CustomAlert isOpenDelete={isOpenDelete} 
+                                       onCloseDelete={onCloseDelete}
+                                       deleteInitRef={initialRef}
+                                       deleteFinalRef={finalRef}
+                                       idSelected={isDeleting.idSelected!}
+                                       alertType={ModalTypes.PRODUCT}/>
       }
     </Container>
   )

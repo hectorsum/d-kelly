@@ -1,4 +1,4 @@
-import { Badge, forwardRef, IconButton, Menu, MenuButton, MenuItem, MenuList, Portal, Stack, Text } from '@chakra-ui/react';
+import { Badge, Flex, forwardRef, IconButton, Menu, MenuButton, MenuItem, MenuList, Portal, Spinner, Stack, Text } from '@chakra-ui/react';
 import React, { useEffect } from 'react'
 import { FiEdit, FiMoreVertical, FiXCircle } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,37 +8,25 @@ import { Product, ProductState } from '../../state/actions/product';
 import MaterialTable from '@material-table/core'
 import { localizationTable, optionsTable, headerStyle, cellStyle } from '../../utils/Table';
 import { setIsDeleting, setIsEditing } from '../../state/action-creators/popup';
+import { ActionsButton } from '../../utils/ActionsButton';
 
-export const ActionsButton = forwardRef(({ label, ...rest }, ref) => {
-  return (
-    <IconButton
-      ref={ref}
-      d="inline-flex"
-      borderRadius="full"
-      variant="ghost"
-      color="inherit"
-      colorScheme="gray"
-      bg="transparent"
-      opacity="0.5"
-      _hover={{ opacity: 1, bg: "rgba(0, 0, 0, 0.05)" }}
-      _focus={{ opacity: 1, boxShadow: "outline" }}
-      _active={{ bg: "rgba(0, 0, 0, 0.1)" }}
-      icon={<FiMoreVertical />}
-      aria-label=""
-      {...rest}
-    />
-  );
-});
-export const ProductsTable: React.FC = (): JSX.Element => {
+interface IProps {
+  onOpenEdit: () => void,
+  onOpenDelete: () => void,
+}
+
+export const ProductsTable: React.FC<IProps> = ({onOpenEdit, onOpenDelete}): JSX.Element => {
   const data: ProductState = useSelector((state: RootState) => state.products);
   const dispatch = useDispatch();
   const handleEdit = (idSelected: string) => {
+    onOpenEdit();
     dispatch(setIsEditing({
       idSelected,
       isOpen: true
     }))
   }
   const handleDelete = (idSelected: string) => {
+    onOpenDelete();
     dispatch(setIsDeleting({
       idSelected,
       isOpen: true
@@ -50,13 +38,13 @@ export const ProductsTable: React.FC = (): JSX.Element => {
   },[dispatch])
   return <>
     {
-      (!data.loading) && <MaterialTable
+      (!data.loading) ? <MaterialTable
           options={optionsTable}
           localization={localizationTable}
           columns={[
           { title: 'Nombre', field: 'name', headerStyle, cellStyle},
           { title: 'Precio', field: 'price', type: 'numeric',render: ({price}: Product) => {
-            return <Text ml={2}>{"S/."+price}</Text>
+            return <Text ml={2}>{"S/."+(Math.round((price!) * 100) / 100).toFixed(2)}</Text>
           }, headerStyle, cellStyle},
           { title: 'Stock Unit', field: 'qty', render: ({qty}: Product) => {
             return <Stack direction='row'>
@@ -102,7 +90,13 @@ export const ProductsTable: React.FC = (): JSX.Element => {
           }, headerStyle, cellStyle},
           ]}
           data={data.products}
-      /> 
+      /> : <Flex w="100%" alignItems={"center"} justifyContent={"center"} minH={"150px"}>
+        <Spinner thickness='4px'
+                speed='0.65s'
+                emptyColor='gray.200'
+                color='#b43137'
+                size='xl'/>
+      </Flex>
     }
   </>
 }
