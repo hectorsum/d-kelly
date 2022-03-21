@@ -28,7 +28,7 @@ export const EditOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}): 
   const [isActive, setIsActive] = useState(false);
   const {cart}: CartState = useSelector((state: RootState) => state.cart);
   const {products}: ProductState = useSelector((state: RootState) => state.products);
-  const {customer: customerSelected,customers}: CustomerState = useSelector((state: RootState) => state.customers);
+  const {customer: customerSelected,customers, loading: customerIsLoading}: CustomerState = useSelector((state: RootState) => state.customers);
   const {order, loading}: OrderState = useSelector((state: RootState) => state.orders);
   const {isEditing: {idSelected}}: PopupState = useSelector((state: RootState) => state.popup);
   const dispatch = useDispatch();
@@ -48,11 +48,11 @@ export const EditOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}): 
     });
   }
   const closeModal = () => {
+    onClose();
     dispatch(setIsEditing({
       idSelected: null,
       isOpen: false
     }))
-    dispatch(removeAllProducts());
   }
   const handleEdit = () => {
     console.log("clicked!!")
@@ -71,10 +71,6 @@ export const EditOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}): 
   const filteredProducts = useMemo(() => 
   products.filter((p: Product) => (typeof p.name === 'string' && formData.product && p.qty > 0) && p.name.toLowerCase().includes(formData.product.toLowerCase())),
   [products, formData.product]);
-  
-  const filteredCustomers = useMemo(() => 
-  customers.filter((c: Customer) => (typeof c.fullname === 'string' && formData.customer) && c.fullname.toLowerCase().includes(formData.customer.toLowerCase())),
-  [customers, formData.customer]);
 
   const foundCustomer = customers.find(c => c._id === order?.customer) as Customer;
   useEffect(() => {
@@ -86,10 +82,10 @@ export const EditOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}): 
     retrieveOrder();
   },[dispatch, idSelected])
   useEffect(() => {
-    if(order && order.products.length > 0){
-      dispatch(loadAllProducts(order?.products!));
-      setHasPaid(order.hasPaid);
-    }
+      if(order && order.products.length > 0){
+        dispatch(loadAllProducts(order?.products!));
+        setHasPaid(order.hasPaid);
+      }
   },[dispatch,order])
   return <>
     <Modal finalFocusRef={finalRef} 
@@ -103,7 +99,7 @@ export const EditOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}): 
         <ModalHeader>Editar Pedido</ModalHeader>
         <ModalCloseButton />
         {
-          (!loading && order?.customer) ?
+          (!loading && order && !customerIsLoading) ?
           <ModalBody>
             <FormControl isRequired mb={4} position={"relative"}>
               <FormLabel>Cliente</FormLabel>

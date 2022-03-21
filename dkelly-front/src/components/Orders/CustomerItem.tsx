@@ -29,7 +29,7 @@ export const CustomerItem: FC<ICustomer> = ({customer, setIsInputChanging}): JSX
           transition={"all 0.2s ease-out"}
           style={(!setIsInputChanging) ? {border:"1px solid #ccc"} : {borderBottom:"1px solid #ccc"}}
           onClick={(e) => {
-            (setIsInputChanging) && selectCustomer(e, customer._id)
+            (setIsInputChanging) && selectCustomer(e, customer._id!)
           }}
           _hover={{
             background:"blue.50",

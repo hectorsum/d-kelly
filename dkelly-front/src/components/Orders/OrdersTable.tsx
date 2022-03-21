@@ -17,31 +17,28 @@ import { WarningIcon, WarningTwoIcon } from '@chakra-ui/icons';
 import { setIsConfirming, setIsEditing } from '../../state/action-creators/popup';
 import { BiBox } from 'react-icons/bi';
 import { Product } from '../../state/actions/product';
+import { ActionsButton } from '../../utils/ActionsButton';
 
-export const ActionsButton = forwardRef(({ label, ...rest }, ref) => {
-  return (
-    <IconButton
-      ref={ref}
-      d="inline-flex"
-      borderRadius="full"
-      variant="ghost"
-      color="inherit"
-      colorScheme="gray"
-      bg="transparent"
-      opacity="0.5"
-      _hover={{ opacity: 1, bg: "rgba(0, 0, 0, 0.05)" }}
-      _focus={{ opacity: 1, boxShadow: "outline" }}
-      _active={{ bg: "rgba(0, 0, 0, 0.1)" }}
-      icon={<FiMoreVertical />}
-      aria-label=""
-      {...rest}
-    />
-  );
-});
-export const OrdersTable = (): JSX.Element => {
+interface IProps {
+  onOpenEdit: () => void,
+  onOpenConfirmation: () => void
+}
+
+export const OrdersTable: FC<IProps> = ({onOpenEdit, onOpenConfirmation}): JSX.Element => {
   const data = useSelector((state: RootState) => state.orders) as OrderState;
   const {customers, loading:loadingCustomers} = useSelector((state: RootState) => state.customers) as CustomerState;
   const dispatch = useDispatch();
+  const handleConfirmation = (idSelected: string) => {
+    onOpenConfirmation();
+    dispatch(setIsConfirming({ isOpen: true, idSelected: idSelected }))
+  }
+  const handleEditOrder = (idSelected: string) => {
+    onOpenEdit();
+    dispatch(setIsEditing({
+      idSelected,
+      isOpen: true
+    }))
+  }
   useEffect(() => {
     const retrieveOrders = () => dispatch(getOrders());
     retrieveOrders();
@@ -50,13 +47,6 @@ export const OrdersTable = (): JSX.Element => {
     const retrieveCustomers = () => dispatch(getCustomers());
     retrieveCustomers();
   },[dispatch]);
-  const handleEditOrder = (idSelected: string) => {
-    console.log("idSelected: ",idSelected)
-    dispatch(setIsEditing({
-      idSelected,
-      isOpen: true
-    }))
-  }
   return <>
     {
       (!data.loading && customers && !loadingCustomers) ? <MaterialTable
@@ -149,7 +139,7 @@ export const OrdersTable = (): JSX.Element => {
                          bg='gray.300' 
                          color='black' 
                          hasArrow>
-                  <Link m={0} display={"flex"} alignItems={"center"} onClick={() => dispatch(setIsConfirming({ isOpen: true, idSelected: rowdata._id! }))} >
+                  <Link m={0} display={"flex"} alignItems={"center"} onClick={() => handleConfirmation(rowdata._id!)} >
                     <WarningIcon w={4} h={4} color={"yellow.500"}/>
                   </Link>
                 </Tooltip>

@@ -44,7 +44,17 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
       [e.target.name]: e.target.value
     });
   }
+  const emptyFields = () => {
+    setFormData({
+      customerid:"",
+      customer: "",
+      product: "",
+      products: [],
+      notes: "",
+    });
+  }
   const saveOrder = () => {
+    onClose();
     dispatch(addOrder({
       customer: formData.customerid,
       products: cart,
@@ -52,7 +62,7 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
       hasPaid: hasPaid
     }));
     dispatch(removeAllProducts())
-    onClose();
+    emptyFields();
   }
   const filteredProducts = useMemo(() => 
   products.filter((p: Product) => (typeof p.name === 'string' && formData.product && p.qty > 0) && p.name.toLowerCase().includes(formData.product.toLowerCase())),
@@ -63,10 +73,9 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
   [customers, formData.customer]);
   
   const closeModal = () => {
-    dispatch(removeAllProducts())
     onClose()
+    dispatch(removeAllProducts())
   }
-  
   useEffect(() => {
     const retrieveProducts = () => dispatch(getProducts());
     retrieveProducts();
@@ -80,7 +89,7 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
       const {customer, customerid, ...rest} = formData;
       setFormData({
         customer: customerSelected.fullname,
-        customerid: customerSelected._id,
+        customerid: customerSelected._id!,
         ...rest
       });
     }

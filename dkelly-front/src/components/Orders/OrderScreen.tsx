@@ -12,18 +12,11 @@ import { EditOrder } from "./EditOrder";
 import {OrdersTable} from "./OrdersTable";
 
 export const OrderScreen = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen:isOpenAdd, onOpen: onOpenAdd, onClose:onCloseAdd } = useDisclosure();
   const { isOpen:isOpenEdit, onOpen: onOpenEdit, onClose:onCloseEdit } = useDisclosure();
-  const { isOpen:isOpenDelete, onOpen: onOpenDelete, onClose:onCloseDelete } = useDisclosure();
-  //Add
+  const { isOpen:isOpenConfirmation, onOpen: onOpenConfirmation, onClose:onCloseConfirmation } = useDisclosure();
   const initialRef = useRef<HTMLInputElement>(null);
-  const finalRef = useRef<HTMLHeadingElement>(null);
-  //Edit
-  const editInitRef = useRef<HTMLInputElement>(null);
-  const editFinalRef = useRef<HTMLHeadingElement>(null);
-  //Delete
-  const deleteInitRef = useRef<HTMLInputElement>(null);
-  const deleteFinalRef = useRef<HTMLButtonElement>(null);
+  const finalRef = useRef<any>(null);
   const { isConfirming, isEditing}: PopupState = useSelector((state: RootState) => state.popup);
   return (
     <Container maxW='container.lg' padding="5" >
@@ -36,31 +29,34 @@ export const OrderScreen = () => {
             Pedidos
           </Text>
         </Box>
-        <Button colorScheme="green" onClick={onOpen} leftIcon={<Icon as={FiPlus} h={[4, 6]} w={[4, 6]} alignSelf={"center"} />}>
+        <Button colorScheme="green" 
+                onClick={onOpenAdd} 
+                leftIcon={<Icon as={FiPlus} h={[4, 6]} w={[4, 6]} 
+                alignSelf={"center"} />}>
           Agregar Pedido
         </Button>
       </Box>
-      <OrdersTable/>
+      <OrdersTable onOpenEdit={onOpenEdit} 
+                   onOpenConfirmation={onOpenConfirmation}/>
       {
-        (isOpen) && <AddOrder initialRef={initialRef} 
+        (isOpenAdd) && <AddOrder initialRef={initialRef} 
                               finalRef={finalRef} 
-                              isOpen={isOpen} 
-                              onClose={onClose}/>
+                              isOpen={isOpenAdd} 
+                              onClose={onCloseAdd}/>
       }
       {
-        (isEditing.isOpen) && <EditOrder initialRef={editInitRef} 
-                                   finalRef={editFinalRef} 
-                                   isOpen={isEditing.isOpen} 
+        (isOpenEdit) && <EditOrder initialRef={initialRef} 
+                                   finalRef={finalRef} 
+                                   isOpen={isOpenEdit} 
                                    onClose={onCloseEdit}/>
       }
       {
-        (isConfirming.isOpen) && <CustomAlert isOpenDelete={true} 
-                                        onOpenDelete={onOpenDelete} 
-                                        onCloseDelete={onCloseDelete}
-                                        deleteInitRef={deleteInitRef}
-                                        deleteFinalRef={deleteFinalRef}
-                                        idSelected={isConfirming.idSelected!}
-                                        alertType={ModalTypes.CONFIRMATION}/>
+        (isOpenConfirmation) && <CustomAlert isOpenDelete={isOpenConfirmation} 
+                                             onCloseDelete={onCloseConfirmation}
+                                             deleteInitRef={initialRef}
+                                             deleteFinalRef={finalRef}
+                                             idSelected={isConfirming.idSelected!}
+                                             alertType={ModalTypes.CONFIRMATION}/>
       }
     </Container>
   )
