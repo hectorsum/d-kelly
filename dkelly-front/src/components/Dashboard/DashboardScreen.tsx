@@ -1,7 +1,12 @@
-import { Flex, SimpleGrid, useColorModeValue } from '@chakra-ui/react'
+import { Flex, Grid, SimpleGrid, useColorModeValue } from '@chakra-ui/react'
 import { FC } from 'react'
+import { BiLineChart } from 'react-icons/bi'
+import BarChart from '../Charts/BarChart'
+import LineChart from '../Charts/LineChart'
 import { CartIcon, DocumentIcon, GlobeIcon, WalletIcon } from '../Icons/Icons'
+import ActiveUsers from './components/ActiveUsers'
 import MiniStatistics from './components/MIniStatistics'
+import SalesOverview from './components/SalesOverview'
 
 export const DashboardScreen: FC = (): JSX.Element => {
   const iconBoxInside = useColorModeValue("white", "white");
@@ -33,6 +38,22 @@ export const DashboardScreen: FC = (): JSX.Element => {
           icon={<CartIcon h={"24px"} w={"24px"} color={iconBoxInside} />}
         />
       </SimpleGrid>
+      <Grid
+        templateColumns={{ sm: "1fr", lg: "1.3fr 1.7fr" }}
+        templateRows={{ sm: "repeat(2, 1fr)", lg: "1fr" }}
+        gap='24px'
+        mb={{ lg: "26px" }}>
+        <ActiveUsers
+          title={"Active Users"}
+          percentage={23}
+          chart={<BarChart />}
+        />
+        <SalesOverview
+          title={"Sales Overview"}
+          percentage={5}
+          chart={<LineChart />}
+        />
+      </Grid>
     </Flex>
   )
 }
