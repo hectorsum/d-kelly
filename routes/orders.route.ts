@@ -9,6 +9,11 @@ const auth = require('../middlewares/auth.middleware');
 // @access Private
 app.get('/', auth, controller.getAll);
 
+// @route  GET api/order/missing
+// @des    Get Missing Payments
+// @access Private
+app.get('/', auth, controller.getMissingPayments);
+
 // @route  GET api/order/:id
 // @des    Get order by id
 // @access Private

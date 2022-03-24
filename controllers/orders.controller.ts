@@ -231,4 +231,19 @@ export class OrderController {
       })
     }
   }
+  async getMissingPayments(req: Request, res: Response){
+    try {
+      const orders = await Order.find({ hasPaid: false });
+      res.json({
+        ok: true,
+        data: orders
+      })
+    } catch (error) {
+      console.log(error)
+      res.json({
+        ok: false,
+        msg: error
+      })
+    }
+  }
 }
