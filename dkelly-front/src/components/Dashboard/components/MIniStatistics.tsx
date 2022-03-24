@@ -23,7 +23,8 @@ const MiniStatistics = ({ title, amount, percentage, icon }) => {
           display="flex" 
           alignItems='center' 
           width="100%"
-          borderRadius={5}>
+          borderRadius={5}
+          border="1px solid #e2e8f0;">
       <CardBody width="100%" px={5}>
         <Flex alignItems='center' justifyContent='space-between' width='100%'>
           <Stat me='auto'>

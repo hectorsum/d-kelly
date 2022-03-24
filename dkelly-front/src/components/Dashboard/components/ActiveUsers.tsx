@@ -17,7 +17,7 @@ const ActiveUsers = ({ title, percentage, chart }): JSX.Element => {
   const iconBoxInside = useColorModeValue("white", "white");
   const textColor = useColorModeValue("gray.700", "white");
   return (
-    <Card p='16px'>
+    <Card py=''>
       <CardBody>
         <Flex direction='column' w='100%'>
           {chart}

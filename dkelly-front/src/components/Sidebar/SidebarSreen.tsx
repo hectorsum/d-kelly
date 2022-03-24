@@ -78,7 +78,7 @@ export const SidebarScreen = ({children}: {
         onClose={onClose}
         returnFocusOnClose={false}
         onOverlayClick={onClose}
-        size="full">
+        >
         <DrawerContent>
           <SidebarContent onClose={onClose} />
         </DrawerContent>

@@ -8,7 +8,7 @@ const ChartStatistics = ({ title, amount, icon, percentage }):JSX.Element => {
   const textColor = useColorModeValue("gray.700", "white");
   const overlayRef = React.useRef();
   return (
-    <Flex direction='column'>
+    <Flex direction='column' bgColor="white" p={5} borderRadius={5}>
       <Flex alignItems='center'>
         <IconBox as='box' h={"30px"} w={"30px"} bg={iconTeal} me='6px'>
           {icon}

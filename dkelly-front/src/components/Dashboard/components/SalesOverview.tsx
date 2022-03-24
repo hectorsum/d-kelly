@@ -8,7 +8,10 @@ import React from "react";
 const SalesOverview = ({ title, percentage, chart }):JSX.Element => {
   const textColor = useColorModeValue("gray.700", "white");
   return (
-    <Card p='28px 10px 16px 0px' mb={{ sm: "26px", lg: "0px" }}>
+    <Card p='28px 0px' mb={{ sm: "26px", lg: "0px" }} 
+          bg="white" 
+          borderRadius={5}
+          >
       <CardHeader mb='20px' pl='22px'>
         <Flex direction='column' alignSelf='flex-start'>
           <Text fontSize='lg' color={textColor} fontWeight='bold' mb='6px'>
