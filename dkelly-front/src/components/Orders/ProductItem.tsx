@@ -10,7 +10,7 @@ import { Product } from '../../state/actions/product';
 interface IProduct {
   product: Product
 }
-export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price,type}}) => {
+export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price,type, machine}}) => {
   const [isSelected, setIsSelected] = useState(false);
   const initialStock = useRef<number>(); 
   const {cart}: CartState = useSelector((state: RootState) => state.cart);
@@ -23,6 +23,7 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price,ty
         name,
         qty:1,
         price,
+        machine,
         type
       }))
       setIsSelected(true)
@@ -96,7 +97,7 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price,ty
             <Text fontSize="sm">{qty}</Text>
           </Badge>
         </Stack>
-        <Text onClick={() => addToCart({_id,name,qty,price, type})}
+        <Text onClick={() => addToCart({_id,name,qty,price,machine, type})}
               _hover={{
                 cursor:"pointer",
                 textDecoration:"underline",

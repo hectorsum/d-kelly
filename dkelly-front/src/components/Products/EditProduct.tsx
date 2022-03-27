@@ -19,6 +19,7 @@ export const EditProduct: FC<IProps> = ({initialRef, finalRef, isOpen, onClose})
   const [formData, setFormData] = useState<Product>({
     name: "",
     type: "icecream",
+    machine:0,
     qty: 0,
     price: 0,
   });
@@ -51,6 +52,7 @@ export const EditProduct: FC<IProps> = ({initialRef, finalRef, isOpen, onClose})
       setFormData({
         name: product.name,
         type: product.type,
+        machine: product.machine,
         qty: product.qty,
         price: product.price
       })
@@ -80,11 +82,19 @@ export const EditProduct: FC<IProps> = ({initialRef, finalRef, isOpen, onClose})
                 />
               </InputGroup>
             </FormControl>
-            <FormControl mb={4}>
+            {/* <FormControl mb={4}>
               <FormLabel>Tipo de Producto</FormLabel>
               <Select name="type" onChange={onChange} value={formData.type}>
                 <option value='icecream'>Helado</option>
                 <option value='other' >Otro</option>
+              </Select>
+            </FormControl> */}
+            <FormControl mb={4}>
+            <FormLabel>Numero de Maquina</FormLabel>
+              <Select name="machine" onChange={onChange} value={formData.machine}>
+                <option value='' >Seleccionar Maquina</option>
+                <option value='1' >01</option>
+                <option value='2' >02</option>
               </Select>
             </FormControl>
             {/* <Collapse in={isQtyShown} delay={200}> */}

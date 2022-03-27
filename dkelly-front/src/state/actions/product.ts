@@ -5,6 +5,7 @@ export interface Product {
   _id?: string,
   name: string,
   qty: number,
+  machine: number,
   price: number,
   type: string,
 }

@@ -9,6 +9,10 @@ const ProductSchema = new Schema({
     type: Number,
     required: false
   },
+  machine: {
+    type: Number,
+    required: false,
+  },
   price:{
     type: Number,
     required: [true, 'price is required']
