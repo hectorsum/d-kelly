@@ -53,6 +53,7 @@ export const EditOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}): 
       idSelected: null,
       isOpen: false
     }))
+    dispatch(removeAllProducts());
   }
   const handleEdit = () => {
     console.log("clicked!!")
@@ -66,10 +67,11 @@ export const EditOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}): 
       idSelected: null,
       isOpen:false
     }));
+    onClose();
     dispatch(removeAllProducts());
   }
   const filteredProducts = useMemo(() => 
-  products.filter((p: Product) => (typeof p.name === 'string' && formData.product && p.qty > 0) && p.name.toLowerCase().includes(formData.product.toLowerCase())),
+  products.filter((p: Product) => (formData.product && p.qty > 0) && p.name.toLowerCase().includes(formData.product.toLowerCase())),
   [products, formData.product]);
 
   const foundCustomer = customers.find(c => c._id === order?.customer) as Customer;

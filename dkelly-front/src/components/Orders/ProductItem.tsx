@@ -1,5 +1,5 @@
 import { Badge, border, Box, Button, Flex, Icon, Input, InputGroup, InputLeftElement, InputRightElement, Stack, Text } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FiMinus, FiPlus } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../state';
@@ -12,6 +12,7 @@ interface IProduct {
 }
 export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price,type}}) => {
   const [isSelected, setIsSelected] = useState(false);
+  const initialStock = useRef<number>(); 
   const {cart}: CartState = useSelector((state: RootState) => state.cart);
   const [counter, setCounter] = useState(1)
   const dispatch = useDispatch();  
@@ -37,9 +38,18 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price,ty
     }
   }
   const increaseQty = (): void => {
-    setCounter(() => counter === qty ? qty : counter + 1)
-    if(counter < qty){
-      dispatch(addQtyProductCart(_id!))
+    console.log("limit-total: ",initialStock.current!+qty);
+    setCounter(() => {
+      if(counter === qty){
+        return qty 
+      }else if (counter === (initialStock.current!+qty)){
+        return counter;
+      }else{
+        return counter + 1
+      }
+    })
+    if(counter < qty || counter !== (initialStock.current!+qty)){
+      dispatch(addQtyProductCart(_id!))  
     }
     
   }
@@ -51,11 +61,12 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price,ty
     if(isProductInCart) {
       setIsSelected(true);
       const {qty} = cart.find(elem => elem._id === _id) as Product;
+      initialStock.current = qty;
       setCounter(qty);
     }else{
       setIsSelected(false);
     }
-  },[_id, cart, isProductInCart])
+  },[_id, isProductInCart])
   useEffect(() => {
     if (counter === 0) {
       dispatch(deleteProductCart(_id!))
