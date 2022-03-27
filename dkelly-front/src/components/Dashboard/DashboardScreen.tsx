@@ -40,15 +40,15 @@ export const DashboardScreen: FC = (): JSX.Element => {
         />
       </SimpleGrid>
       <Grid
-        templateColumns={{ sm: "1fr", lg: "1.3fr 1.7fr" }}
+        templateColumns={{ sm: "1fr", lg: "3fr" }}
         templateRows={{ sm: "repeat(2, 1fr)", lg: "1fr" }}
         gap='24px'
         mb={{ lg: "26px" }} my={5}>
-        <ActiveUsers
+        {/* <ActiveUsers
           title={"Active Users"}
           percentage={23}
           chart={<BarChart />}
-        />
+        /> */}
         <SalesOverview
           title={"Sales Overview"}
           percentage={5}
@@ -60,6 +60,11 @@ export const DashboardScreen: FC = (): JSX.Element => {
         templateRows={{ sm: "repeat(2, 1fr)", lg: "1fr" }}
         gap='24px'
         mb={{ lg: "26px" }} my={5}>
+        <ActiveUsers
+          title={"Active Users"}
+          percentage={23}
+          chart={<BarChart />}
+        />
         <MissingPayments/>
         {/* <SalesOverview
           title={"Sales Overview"}

@@ -64,13 +64,13 @@ export const ProductsTable: React.FC<IProps> = ({onOpenEdit, onOpenDelete}): JSX
             options={optionsTable}
             localization={localizationTable}
             columns={[
+            { title: 'Nombre', field: 'name', headerStyle, cellStyle},
             { title: 'Maquina', field: 'machine',render: (rowData) => {
               return <Flex>
                 <BsFillInboxesFill/>
                 <Text ml={2}>{(rowData.machine < 10) ? "0"+rowData.machine : rowData.machine}</Text>
               </Flex>
             }, headerStyle, cellStyle},
-            { title: 'Nombre', field: 'name', headerStyle, cellStyle},
             { title: 'Precio', field: 'price', type: 'numeric',render: ({price}: Product) => {
               return <Text ml={2}>{"S/."+(Math.round((price!) * 100) / 100).toFixed(2)}</Text>
             }, headerStyle, cellStyle},
