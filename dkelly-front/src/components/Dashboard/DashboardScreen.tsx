@@ -56,16 +56,18 @@ export const DashboardScreen: FC = (): JSX.Element => {
         />
       </Grid>
       <Grid
-        templateColumns={{ sm: "1fr", lg: "1.3fr 1.7fr" }}
+        templateColumns={{ sm: "1fr", lg: "2fr 1fr" }}
         templateRows={{ sm: "repeat(2, 1fr)", lg: "1fr" }}
         gap='24px'
         mb={{ lg: "26px" }} my={5}>
         <ActiveUsers
-          title={"Active Users"}
+          title={"Ventas de los ultimos meses"}
           percentage={23}
           chart={<BarChart />}
         />
-        <MissingPayments/>
+        <MissingPayments
+          title={"Pedidos pendientes de pago"}
+        />
         {/* <SalesOverview
           title={"Sales Overview"}
           percentage={5}

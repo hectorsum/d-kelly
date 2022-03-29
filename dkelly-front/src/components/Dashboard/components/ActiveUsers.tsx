@@ -17,15 +17,21 @@ const ActiveUsers = ({ title, percentage, chart }): JSX.Element => {
   const iconBoxInside = useColorModeValue("white", "white");
   const textColor = useColorModeValue("gray.700", "white");
   return (
-    <Card py=''>
-      <CardBody>
-        <Flex direction='column' w='100%'>
-          {chart}
-          <Flex direction='column' mt='24px' mb='36px' alignSelf='flex-start'>
-            <Text fontSize='lg' color={textColor} fontWeight='bold' mb='6px'>
+    <Card py='' h="100%">
+      <CardBody h="100%">
+        <Flex direction='column' w='100%' h="100%">
+          <Flex direction='column' 
+                // mt='24px' 
+                // mb='36px' 
+                bg={"white"}
+                width={"100%"}
+                p={4}
+                borderRadius={"5px 5px 0 0"}
+                alignSelf='flex-start'>
+            <Text fontSize='lg' color={textColor} fontWeight='bold'>
               {title}
             </Text>
-            <Text fontSize='md' fontWeight='medium' color='gray.400'>
+            {/* <Text fontSize='md' fontWeight='medium' color='gray.400'>
               <Text
                 as='span'
                 color={percentage > 0 ? "green.400" : "red.400"}
@@ -33,9 +39,10 @@ const ActiveUsers = ({ title, percentage, chart }): JSX.Element => {
                 {percentage > 0 ? `+${percentage}%` : `-${percentage}%`}
               </Text>{" "}
               than last week
-            </Text>
+            </Text> */}
           </Flex>
-          <SimpleGrid gap={{ sm: "12px" }} columns={4}>
+          {chart}
+          {/* <SimpleGrid gap={{ sm: "12px" }} columns={4}>
             <ChartStatistics
               title={"Users"}
               amount={"32,984"}
@@ -60,7 +67,7 @@ const ActiveUsers = ({ title, percentage, chart }): JSX.Element => {
               percentage={40}
               icon={<StatsIcon h={"15px"} w={"15px"} color={iconBoxInside} />}
             />
-          </SimpleGrid>
+          </SimpleGrid> */}
         </Flex>
       </CardBody>
     </Card>
