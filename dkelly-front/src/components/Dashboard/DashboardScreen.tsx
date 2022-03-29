@@ -50,7 +50,7 @@ export const DashboardScreen: FC = (): JSX.Element => {
           chart={<BarChart />}
         /> */}
         <SalesOverview
-          title={"Sales Overview"}
+          title={"Ventas por producto"}
           percentage={5}
           chart={<LineChart />}
         />

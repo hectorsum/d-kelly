@@ -56,8 +56,8 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Dashboard', icon: FcSalesPerformance, path:'/dashboard' },
   { name: 'Pedidos', icon: FaIceCream, path:'/pedidos' },
   { name: 'Productos', icon: BiBox, path:'/productos' },
-  { name: 'Empleados', icon: HiOutlineUserGroup, path:'/empleados' },
   { name: 'Clientes', icon: HiUsers, path:'/clientes' },
+  { name: 'Empleados', icon: HiOutlineUserGroup, path:'/empleados' },
   { name: 'Configuracion', icon: FiSettings, path:'/configuracion' },
 ];
 

@@ -14,10 +14,10 @@ const SalesOverview = ({ title, percentage, chart }):JSX.Element => {
           >
       <CardHeader mb='20px' pl='22px'>
         <Flex direction='column' alignSelf='flex-start'>
-          <Text fontSize='lg' color={textColor} fontWeight='bold' mb='6px'>
+          <Text fontSize='lg' color={textColor} fontWeight='bold'>
             {title}
           </Text>
-          <Text fontSize='md' fontWeight='medium' color='gray.400'>
+          {/* <Text fontSize='md' fontWeight='medium' color='gray.400'>
             <Text
               as='span'
               color={percentage > 0 ? "green.400" : "red.400"}
@@ -25,10 +25,10 @@ const SalesOverview = ({ title, percentage, chart }):JSX.Element => {
               {`${percentage}%`} more
             </Text>{" "}
             in 2021
-          </Text>
+          </Text> */}
         </Flex>
       </CardHeader>
-      <Box w='100%' h={{ sm: "300px" }} ps='8px'>
+      <Box w='100%' h={{ sm: "300px",md: "100%" }} p='8px'>
         {chart}
       </Box>
     </Card>
