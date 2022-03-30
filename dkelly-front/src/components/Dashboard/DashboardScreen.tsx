@@ -41,8 +41,8 @@ export const DashboardScreen: FC = (): JSX.Element => {
       </SimpleGrid>
       <Grid
         templateColumns={{ sm: "1fr", lg: "3fr" }}
-        templateRows={{ sm: "repeat(2, 1fr)", lg: "1fr" }}
-        gap='24px'
+        templateRows={{ sm: "repeat(1, 1fr)", lg: "1fr" }}
+        // gap='24px'
         mb={{ lg: "26px" }} my={5}>
         {/* <ActiveUsers
           title={"Active Users"}

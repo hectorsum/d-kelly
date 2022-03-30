@@ -1,7 +1,7 @@
 export const barChartData = [
   {
     name: "Sales",
-    data: [330, 250, 110, 300, 490, 350, 270, 130, 425],
+    data: [330, 250, 110, 300, 490, 350, 270, 130, 425, 270, 130, 425],
   },
 ];
 
@@ -85,13 +85,20 @@ export const barChartOptions = {
 
 export const lineChartData = [
   {
+    _id:"621c071e80c79ecabc10e106",
     name: "Mobile apps",
-    data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+    data: [50, 40, 300, 220, 500, 250, 400, 230, 500, 400, 230, 500],
   },
-  // {
-  //   name: "Websites",
-  //   data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
-  // },
+  {
+    _id:"621c077680c79ecabc10e109",
+    name: "Mobile apps",
+    data: [20, 10, 400, 50, 30, 250, 400, 230, 500],
+  },
+  {
+    _id:"621c077680c79ecabc10e110",
+    name: "Websites",
+    data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+  },
 ];
 
 export const lineChartOptions = {
