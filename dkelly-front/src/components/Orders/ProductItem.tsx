@@ -46,13 +46,10 @@ export const ProductItem: React.FC<IProduct> = ({product: {_id,name,qty,price,ty
       }else if (counter === (initialStock.current!+qty)){
         return counter;
       }else{
+        dispatch(addQtyProductCart(_id!))  
         return counter + 1
       }
     })
-    if(counter < qty || counter !== (initialStock.current!+qty)){
-      dispatch(addQtyProductCart(_id!))  
-    }
-    
   }
   const updateQty = (id: string, qty: number): void => {
     dispatch(updateProductCart(id, qty));
