@@ -57,8 +57,8 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Pedidos', icon: FaIceCream, path:'/pedidos' },
   { name: 'Productos', icon: BiBox, path:'/productos' },
   { name: 'Clientes', icon: HiUsers, path:'/clientes' },
-  { name: 'Empleados', icon: HiOutlineUserGroup, path:'/empleados' },
-  { name: 'Configuracion', icon: FiSettings, path:'/configuracion' },
+  // { name: 'Empleados', icon: HiOutlineUserGroup, path:'/empleados' },
+  // { name: 'Configuracion', icon: FiSettings, path:'/configuracion' },
 ];
 
 export const SidebarScreen = ({children}: {

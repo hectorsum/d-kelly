@@ -1,4 +1,4 @@
-import { Input, InputGroup, Avatar, Button, Flex, FormControl, FormLabel, Icon, Text, Textarea, InputRightElement,InputLeftElement, Box, Spacer, IconButton, Switch } from '@chakra-ui/react'
+import { Input, InputGroup, Avatar, Button, Flex, FormControl, FormLabel, Icon, Text, Textarea, InputRightElement,InputLeftElement, Box, Spacer, IconButton, Switch, Select } from '@chakra-ui/react'
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/modal'
 import React, { FC, LegacyRef, useEffect, useMemo, useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
@@ -32,12 +32,13 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
   const [hasPaid, setHasPaid] = useState<boolean>(false);
   const [formData, setFormData] = useState({
     customerid:"",
+    machine: 1,
     customer: "",
     product: "",
     products: [],
     notes: "",
   })
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
     e.preventDefault();
     setFormData({
       ...formData,
@@ -47,6 +48,7 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
   const emptyFields = () => {
     setFormData({
       customerid:"",
+      machine: 1,
       customer: "",
       product: "",
       products: [],
@@ -65,11 +67,11 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
     emptyFields();
   }
   const filteredProducts = useMemo(() => 
-  products.filter((p: Product) => (typeof p.name === 'string' && formData.product && p.qty > 0) && p.name.toLowerCase().includes(formData.product.toLowerCase())),
-  [products, formData.product]);
+  products.filter((p: Product) => (formData.machine.toString().trim() === p.machine.toString().trim() && formData.product && p.qty > 0) && p.name.toLowerCase().includes(formData.product.toLowerCase())),
+  [products, formData.product, formData.machine]);
   
   const filteredCustomers = useMemo(() => 
-  customers.filter((c: Customer) => (typeof c.fullname === 'string' && formData.customer) && c.fullname.toLowerCase().includes(formData.customer.toLowerCase())),
+  customers.filter((c: Customer) => (formData.customer) && c.fullname.toLowerCase().includes(formData.customer.toLowerCase())),
   [customers, formData.customer]);
   
   const closeModal = () => {
@@ -94,7 +96,7 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
       });
     }
   },[customerSelected])
-
+  console.log("filteredProducts: ",filteredProducts);
   return (
     <Modal finalFocusRef={finalRef} 
            isOpen={isOpen} 
@@ -147,6 +149,13 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
               </Box>
             }
           </FormControl>
+          <FormControl mb={4}>
+            <FormLabel>Nro. Maquina</FormLabel>
+            <Select onChange={onChange} name={"machine"} value={formData.machine}>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+            </Select>
+          </FormControl>
           <FormControl isRequired mb={4} position="relative">
             <FormLabel>Productos</FormLabel>
             <InputGroup>
@@ -198,10 +207,6 @@ export const AddOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}) =>
               </Box>
             }
           </FormControl>
-          {/* <FormControl mb={4}>
-            <FormLabel>Notas</FormLabel>
-            <Textarea onChange={onChange} name={"notes"} value={formData.notes} resize={"none"}/>
-          </FormControl> */}
           <FormControl isRequired>
             <Box display="flex" justifyContent="space-between" alignItems="center">
               <Spacer/>
