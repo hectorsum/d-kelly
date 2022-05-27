@@ -46,7 +46,7 @@ export const LoginScreen: React.FC = () => {
     // }
   };
   if(data.isAuthenticated){
-    navigate(`dashboard`);
+    navigate(`pedidos`);
   }
   const inputChange = (e: any) => {
     e.preventDefault();
