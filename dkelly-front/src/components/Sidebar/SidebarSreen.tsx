@@ -53,7 +53,7 @@ interface LinkItemProps {
   path: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Dashboard', icon: FcSalesPerformance, path:'/dashboard' },
+  // { name: 'Dashboard', icon: FcSalesPerformance, path:'/dashboard' },
   { name: 'Pedidos', icon: FaIceCream, path:'/pedidos' },
   { name: 'Productos', icon: BiBox, path:'/productos' },
   { name: 'Clientes', icon: HiUsers, path:'/clientes' },

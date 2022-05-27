@@ -32,9 +32,9 @@ function App() {
           <Routes>
             <Route path='/' element={<LoginScreen/>}/>
             <Route element={<SidebarLayout/>}>
-              <Route path='/dashboard' element={<PrivateRoute/>}>
+              {/* <Route path='/dashboard' element={<PrivateRoute/>}>
                 <Route path='/dashboard' element={<DashboardScreen/>}/>
-              </Route>
+              </Route> */}
               <Route path='/clientes' element={<PrivateRoute/>}>
                 <Route path='/clientes' element={<CustomerScreen/>}/>
               </Route>
