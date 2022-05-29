@@ -41,7 +41,7 @@ import { ReactText } from 'react';
 import { FcSalesPerformance } from 'react-icons/fc';
 import { FaIceCream } from 'react-icons/fa';
 import { HiUsers, HiOutlineUserGroup } from 'react-icons/hi';
-import { BiBox } from 'react-icons/bi';
+import { BiBox, BiFridge } from 'react-icons/bi';
 import { AuthState } from '../../state/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../state';
@@ -57,6 +57,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Pedidos', icon: FaIceCream, path:'/pedidos' },
   { name: 'Productos', icon: BiBox, path:'/productos' },
   { name: 'Clientes', icon: HiUsers, path:'/clientes' },
+  { name: 'Maquinas', icon: BiFridge, path:'/maquinas' },
   // { name: 'Empleados', icon: HiOutlineUserGroup, path:'/empleados' },
   // { name: 'Configuracion', icon: FiSettings, path:'/configuracion' },
 ];
