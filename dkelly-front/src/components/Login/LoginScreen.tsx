@@ -16,7 +16,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { RootState } from "../../state";
@@ -35,19 +35,14 @@ export const LoginScreen: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(auth(email, password));
-    // const {data: {data: tokenResponse, ok}} = await axios.post("http://localhost:8000/api/auth", formData, {
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
-    // if (ok) {
-    //   localStorage.setItem("token", tokenResponse);
-    //   navigate(`clientes`);
-    // }
   };
-  if(data.isAuthenticated){
-    navigate(`pedidos`);
-  }
+  
+  useEffect(() => {
+    if(data.isAuthenticated){
+      navigate(`pedidos`);
+    }
+  },[data.isAuthenticated])
+  
   const inputChange = (e: any) => {
     e.preventDefault();
     setFormData({
