@@ -24,10 +24,6 @@ export class AuthController {
         return res.status(400).json({ errors: [{ msg: "Invalid Credencials" }] });
       }
       const {_id, password: usrPass} = user;
-      console.log({
-        "user":user,
-        "req.body":req.body
-      })
       const isMatch = await bcrypt.compare(password, usrPass);
       if (!isMatch) {
         return res.status(400).json({ errors: [{ msg: "Invalid Credencials" }] });
