@@ -2,7 +2,7 @@ import React, { Dispatch, useEffect } from 'react';
 import { ChakraProvider, Container } from '@chakra-ui/react';
 import {BrowserRouter as Router, Routes, Route, Navigate, Outlet} from 'react-router-dom'
 import LoginScreen from './components/Login/LoginScreen';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import {store} from './state/store';
 import { SidebarScreen } from './components/Sidebar/SidebarSreen';
 import { CustomerScreen } from './components/Customer/CustomerScreen';
@@ -15,15 +15,35 @@ import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './routing/PrivateRoute';
 import Alert from './utils/Alert';
 import { OrderByCustomerScreen } from './components/Orders/OrderByCustomer/OrderByCustomerScreen';
-if(localStorage.token){
-  setAuthToken(localStorage.token);
-}
+import { AuthType } from './state/action-types/auth';
+import { getOrders } from './state/action-creators/order';
+
+// const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>
+// if(localStorage.token){
+//   setAuthToken(localStorage.token);
+//   // dispatchStore(loadUser())
+// }
+// // log user out from all tabs if they log out in one tab
+// window.addEventListener('storage', () => {
+//   if (!localStorage.token) store.dispatch({ type: AuthType.LOGOUT });
+// });
 
 function App() {
   const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>
-  useEffect(()=>{
+  useEffect(() => {
+    // check for token in LS when app first runs
+    if (localStorage.token) {
+      // if there is a token set axios headers for all requests
+      setAuthToken(localStorage.token);
+    }
+    // try to fetch a user, if no token or invalid token we
+    // will get a 401 response from our API
     dispatchStore(loadUser())
-  },[]);
+    // log user out from all tabs if they log out in one tab
+    window.addEventListener('storage', () => {
+      if (!localStorage.token) store.dispatch({ type: AuthType.LOGOUT });
+    });
+  }, []);
   return (
     <Provider store={store}>
       <ChakraProvider>
@@ -32,9 +52,9 @@ function App() {
           <Routes>
             <Route path='/' element={<LoginScreen/>}/>
             <Route element={<SidebarLayout/>}>
-              {/* <Route path='/dashboard' element={<PrivateRoute/>}>
+              <Route path='/dashboard' element={<PrivateRoute/>}>
                 <Route path='/dashboard' element={<DashboardScreen/>}/>
-              </Route> */}
+              </Route>
               <Route path='/clientes' element={<PrivateRoute/>}>
                 <Route path='/clientes' element={<CustomerScreen/>}/>
               </Route>

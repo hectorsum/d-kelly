@@ -18,7 +18,7 @@ const reducer = (state: AuthState = initialState, action: AuthAction) => {
         user: action.payload //* User data (email)
       }
     case AuthType.LOGIN_SUCCESS:
-      localStorage.setItem('token',action.payload);
+      // localStorage.setItem('token',action.payload);
       return {
         ...state,
         token: action.payload,
