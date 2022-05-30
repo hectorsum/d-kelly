@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "ts-dev": "nodemon dist/server.js",
     "client": "cd dkelly-front && npm install",
-    "server": "concurrently \"npm run ts-dev\" \"tsc -w\"",
+    "server": "npm i typescript -g && concurrently \"npm run ts-dev\" \"tsc -w\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run client && npm run build "
   },
   "author": "Hector Herrera",
