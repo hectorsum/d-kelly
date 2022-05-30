@@ -22,6 +22,7 @@
     "@types/morgan": "^1.9.3",
     "bcrypt": "^5.0.1",
     "kill-port": "^2.0.0",
+    "tsc": "^2.0.4",
     "typescript": "^4.5.5"
   },
   "dependencies": {
