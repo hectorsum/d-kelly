@@ -75,8 +75,11 @@ export const AddProduct: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}):
             <FormLabel>Numero de Maquina</FormLabel>
             <Select name="machine" onChange={onChange} value={formData.machine}>
               <option value='' >Seleccionar Maquina</option>
-              <option value='01' >01</option>
-              <option value='02' >02</option>
+              <option value='1' >01</option>
+              <option value='2' >02</option>
+              <option value='3' >03</option>
+              <option value='4' >04</option>
+              <option value='5' >05</option>
             </Select>
           </FormControl>
           {/* <Collapse in={isQtyShown} delay={200}> */}

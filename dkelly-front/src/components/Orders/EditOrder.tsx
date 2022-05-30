@@ -1,5 +1,5 @@
 import { ArrowUpDownIcon } from '@chakra-ui/icons'
-import { Box, Button, Flex, FormControl, FormLabel, IconButton, Input, InputGroup, InputLeftElement, Spacer, Spinner, Switch, Textarea } from '@chakra-ui/react'
+import { Box, Button, Flex, FormControl, FormLabel, IconButton, Input, InputGroup, InputLeftElement, Select, Spacer, Spinner, Switch, Textarea } from '@chakra-ui/react'
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/modal'
 import React, { FC, LegacyRef, useEffect, useMemo, useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
@@ -36,11 +36,12 @@ export const EditOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}): 
   const [formData, setFormData] = useState({
     customerid:"",
     customer: "",
+    machine: 1,
     product: "",
     products: [],
     notes: "",
   })
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
     e.preventDefault();
     setFormData({
       ...formData,
@@ -71,9 +72,8 @@ export const EditOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}): 
     dispatch(removeAllProducts());
   }
   const filteredProducts = useMemo(() => 
-  products.filter((p: Product) => ((formData.product && p.qty > 0) || cart.some(cartP => cartP._id === p._id)) && 
-                                   p.name.toLowerCase().includes(formData.product.toLowerCase())),
-  [products, formData.product]);
+  products.filter((p: Product) => (formData.machine.toString().trim() === p.machine.toString().trim() && formData.product && p.qty > 0) && p.name.toLowerCase().includes(formData.product.toLowerCase())),
+  [products, formData.product, formData.machine]);
 
   const foundCustomer = customers.find(c => c._id === order?.customer) as Customer;
   useEffect(() => {
@@ -109,6 +109,16 @@ export const EditOrder: FC<IProps> = ({initialRef, finalRef, isOpen, onClose}): 
               <InputGroup>
                   <CustomerItem customer={foundCustomer}/>
               </InputGroup>
+            </FormControl>
+            <FormControl mb={4}>
+              <FormLabel>Nro. Maquina</FormLabel>
+              <Select onChange={onChange} name={"machine"} value={formData.machine}>
+                <option value='1' >01</option>
+                <option value='2' >02</option>
+                <option value='3' >03</option>
+                <option value='4' >04</option>
+                <option value='5' >05</option>
+              </Select>
             </FormControl>
             <FormControl isRequired mb={4} position="relative">
               <FormLabel>Productos</FormLabel>

@@ -95,6 +95,9 @@ export const EditProduct: FC<IProps> = ({initialRef, finalRef, isOpen, onClose})
                 <option value='' >Seleccionar Maquina</option>
                 <option value='1' >01</option>
                 <option value='2' >02</option>
+                <option value='3' >03</option>
+                <option value='4' >04</option>
+                <option value='5' >05</option>
               </Select>
             </FormControl>
             {/* <Collapse in={isQtyShown} delay={200}> */}
