@@ -9,7 +9,7 @@
     "ts-dev": "nodemon dist/server.js",
     "client": "cd dkelly-front && npm install",
     "server": "concurrently \"npm run ts-dev\" \"tsc -w\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run client && npm run build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run client && npm run build "
   },
   "author": "Hector Herrera",
   "license": "ISC",
