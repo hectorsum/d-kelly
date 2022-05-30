@@ -7,11 +7,11 @@
     "start":"node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "ts-dev": "nodemon dist/server.js",
-    "client": "npm start --prefix dkelly-front",
+    "client": "cd dkelly-front && npm install",
     "server": "concurrently \"npm run ts-dev\" \"tsc -w\"",
-    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run client && npm run build"
   },
-  "author": "",
+  "author": "Hector Herrera",
   "license": "ISC",
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
