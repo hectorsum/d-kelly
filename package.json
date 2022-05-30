@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start":"npm rebuild bcrypt --build-from-source && npm run server",
+    "start": "npm rebuild bcrypt --build-from-source && npm run server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "ts-dev": "nodemon dist/server.js",
     "client": "cd dkelly-front && npm install",
@@ -21,6 +21,7 @@
     "@types/jsonwebtoken": "^8.5.8",
     "@types/morgan": "^1.9.3",
     "bcrypt": "^5.0.1",
+    "kill-port": "^2.0.0",
     "typescript": "^4.5.5"
   },
   "dependencies": {
