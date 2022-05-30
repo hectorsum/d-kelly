@@ -2,12 +2,15 @@
   "name": "dkelly",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
+    "start":"node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build":"cd dkelly-front && npm run build",
     "ts-dev": "nodemon dist/server.js",
     "client": "npm start --prefix dkelly-front",
-    "server": "concurrently \"npm run ts-dev\" \"tsc -w\""
+    "server": "concurrently \"npm run ts-dev\" \"tsc -w\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "",
   "license": "ISC",
