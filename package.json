@@ -9,7 +9,7 @@
     "ts-dev": "nodemon dist/server.js --ignore dkelly-front",
     "client": "npm start --prefix dkelly-front",
     "server": "concurrently \"npm run ts-dev\" \"tsc -w\"",
-    "postinstall": "tsc",
+    "postinstall": "npm run build",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix dkelly-front && npm run build --prefix dkelly-front "
   },
   "author": "Hector Herrera",
