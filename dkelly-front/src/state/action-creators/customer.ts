@@ -85,7 +85,7 @@ export const addCustomer = (formData: Customer) => async(dispatch: Dispatch<Cust
 
 export const updateCustomer = (id: string, formData: Customer) => async(dispatch: Dispatch<CustomerAction | Action | any>) => {
   try {
-    let {data:{data: customerResponse}} = await axios.put(`http://localhost:8000/api/customer/${id}`,formData ,config);
+    let {data:{data: customerResponse}} = await axios.put(`/api/customer/${id}`,formData ,config);
     dispatch({
       type: CustomerType.EDIT,
       payload: customerResponse,

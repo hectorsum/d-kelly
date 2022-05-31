@@ -19,7 +19,7 @@ export const loadUser = () => async(dispatch: Dispatch<AuthAction>) => {
       setAuthToken(localStorage.token);
     }
     //Getting user info -> email
-    const {data: {data: responseAuth}} = await axios.get('http://localhost:8000/api/auth');
+    const {data: {data: responseAuth}} = await axios.get('/api/auth');
     dispatch({
       type: AuthType.USER_LOADED,
       payload: responseAuth
@@ -35,7 +35,7 @@ export const auth = (email: string, password: string) => async(dispatch: Dispatc
   const body = JSON.stringify({email,password});
   try {
     //Getting token from backend
-    const {data: {data: token}} = await axios.post('http://localhost:8000/api/auth',body,config);
+    const {data: {data: token}} = await axios.post('/api/auth',body,config);
     // console.log("responseAuth: ", token)
     dispatch({
       type: AuthType.LOGIN_SUCCESS,

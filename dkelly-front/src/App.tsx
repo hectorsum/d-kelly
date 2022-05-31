@@ -17,6 +17,7 @@ import Alert from './utils/Alert';
 import { OrderByCustomerScreen } from './components/Orders/OrderByCustomer/OrderByCustomerScreen';
 import { AuthType } from './state/action-types/auth';
 import { getOrders } from './state/action-creators/order';
+import axios from 'axios';
 
 // const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>
 // if(localStorage.token){
@@ -27,7 +28,7 @@ import { getOrders } from './state/action-creators/order';
 // window.addEventListener('storage', () => {
 //   if (!localStorage.token) store.dispatch({ type: AuthType.LOGOUT });
 // });
-
+axios.defaults.baseURL = "https://deliciaskelly.herokuapp.com/";
 function App() {
   const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>
   useEffect(() => {
