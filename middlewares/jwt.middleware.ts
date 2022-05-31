@@ -9,6 +9,7 @@ export const generateJWT = (id: string) => {
       },
     };
     let token = process.env.JWT_SECRET as string;
+    console.log("token: ",token)
     jwt.sign(
       payload,
       config.get(token),
