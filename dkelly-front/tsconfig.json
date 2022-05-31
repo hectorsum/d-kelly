@@ -6,6 +6,9 @@
       "dom.iterable",
       "esnext"
     ],
+    "types": [
+      "node"
+    ],
     "typeRoots": [
       "./typings/react-uuid",
     ],

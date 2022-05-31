@@ -28,7 +28,7 @@ import axios from 'axios';
 // window.addEventListener('storage', () => {
 //   if (!localStorage.token) store.dispatch({ type: AuthType.LOGOUT });
 // });
-axios.defaults.baseURL = "https://deliciaskelly.herokuapp.com/";
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_ENDPOINT;
 function App() {
   const dispatchStore = store.dispatch as typeof store.dispatch | Dispatch<any>
   useEffect(() => {
