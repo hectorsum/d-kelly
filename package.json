@@ -4,12 +4,12 @@
   "description": "",
   "main": "dist/server.js",
   "scripts": {
-    "start": "nodemon dist/server.js",
+    "build":"tsc",
+    "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "ts-dev": "nodemon dist/server.js",
+    "ts-dev": "nodemon dist/server.js",    
     "client": "npm start --prefix dkelly-front",
     "server": "concurrently \"npm run ts-dev\" \"tsc -w\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix dkelly-front && npm run build --prefix dkelly-front"
   },
   "author": "Hector Herrera",
   "license": "ISC",
