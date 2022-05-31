@@ -1,6 +1,6 @@
 import { connect, CallbackError } from 'mongoose'
 import config from 'config';
-const uri = config.get("mongoURI") as string;
+const uri = process.env.MONGO_URI as string;
 export async function connection() {
   try {
     await connect( 
