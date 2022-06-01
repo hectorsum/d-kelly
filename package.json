@@ -8,7 +8,8 @@
     "start": "node dist/server.js",
     "ts-dev": "nodemon dist/server.js",    
     "client": "npm start --prefix dkelly-front",
-    "server": "concurrently \"npm run ts-dev\" \"tsc -w\""
+    "server": "concurrently \"npm run ts-dev\" \"tsc -w\"",
+    "test": "NODE_ENV= test"
   },
   "author": "Hector Herrera",
   "license": "ISC",
