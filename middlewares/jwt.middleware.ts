@@ -12,7 +12,7 @@ export const generateJWT = (id: string) => {
     // console.log("token: ",token)
     jwt.sign(
       payload,
-      config.get(`${token}`),
+      token,
       { expiresIn: 360000 },
       (err: any, token: any) => {
         if (err) {
