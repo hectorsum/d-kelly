@@ -40,13 +40,13 @@ export class ConfigServer {
     }
 
     start(callback: any) {
-      if (process.env.NODE_ENV === "production") {
-        //* Set static folder
-        this.app.use(express.static("dkelly-front/build"));
-        this.app.get("*", (req: Request, res: Response) => {
-          res.sendFile(path.resolve(__dirname, "dkelly-front", "build", "index.html"));
-        });
-      }
+      // if (process.env.NODE_ENV === "production") {
+      //   //* Set static folder
+      //   this.app.use(express.static("dkelly-front/build"));
+      //   this.app.get("*", (req: Request, res: Response) => {
+      //     res.sendFile(path.resolve(__dirname, "dkelly-front", "build", "index.html"));
+      //   });
+      // }
       this.app.listen(this.app.get('port'), callback)
       this.middlewares()
       this.routes()
