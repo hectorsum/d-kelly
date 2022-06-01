@@ -18,7 +18,7 @@ module.exports = function (req: AuthRequest, res: Response, next: NextFunction) 
     if(!token) return res.status(401).json({ msg: 'No token, authorization denied' });    
     
     //* Verify Token
-    jwt.verify(token,config.get('jwtSecret'), (error, decoded: any) => {
+    jwt.verify(token,"mysecrettoken", (error, decoded: any) => {
       if(error){
         return res.status(401).json({ msg: 'Token is not valid' });
       }else{
