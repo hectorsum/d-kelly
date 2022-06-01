@@ -8,10 +8,10 @@ export const generateJWT = (id: string) => {
         id,
       },
     };
-    let token = process.env.JWT_SECRET as string;
+    let token = process.env.jwtSecret;
     jwt.sign(
       payload,
-      config.get("jwtSecret"),
+      process.env.jwtSecret as string,
       { expiresIn: 360000 },
       (err: any, token: any) => {
         if (err) {
