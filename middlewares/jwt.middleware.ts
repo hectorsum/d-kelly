@@ -9,10 +9,10 @@ export const generateJWT = (id: string) => {
       },
     };
     let token = process.env.JWT_SECRET as string;
-    console.log("token: ",token)
+    // console.log("token: ",token)
     jwt.sign(
       payload,
-      config.get(token),
+      config.get(`${token}`),
       { expiresIn: 360000 },
       (err: any, token: any) => {
         if (err) {
